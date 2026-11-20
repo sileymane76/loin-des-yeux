@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loin des yeux</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one love card per question, two hearts on top that get closer with each point, rose petals falling. */
+:root{
+  --paper:#eef1f8;
+  --surface:#ffffff;
+  --ink:#18203a;
+  --muted:#5d6682;
+  --line:#d3d9e8;
+  --red:#d2333f;
+  --blue:#2550c0;
+  --good:#1d7a52;
+  --display:"Bricolage Grotesque","Trebuchet MS","Segoe UI",sans-serif;
+  --body:"Instrument Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#10162a;--surface:#1a2340;--ink:#eef1fb;--muted:#a3adca;--line:#2f3a60;
+    --red:#ff6f78;--blue:#86a6ff;--good:#5fd3a0;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10162a;--surface:#1a2340;--ink:#eef1fb;--muted:#a3adca;--line:#2f3a60;
+  --red:#ff6f78;--blue:#86a6ff;--good:#5fd3a0;color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
+.app{max-width:480px;margin:0 auto;padding:20px 16px 40px;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.12}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.brand h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.brand span{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+
+/* the wire */
+.wire{--p:0;display:flex;align-items:center;padding-inline:calc(var(--p) * (50% - 13px));transition:padding .7s cubic-bezier(.3,1.3,.5,1)}
+.wire i{flex:none;width:13px;height:13px;border-radius:50%;background:var(--blue)}
+.wire i:last-child{background:var(--red)}
+.wire b{flex:1;height:0;border-top:2px dashed var(--line);min-width:0}
+.wire.met i{background:var(--red)}
+.wirelabel{font-size:.82rem;color:var(--muted);text-align:center;margin-top:6px}
+
+/* airmail letter */
+.letter{padding:7px;border-radius:14px;background:repeating-linear-gradient(135deg,var(--red) 0 11px,var(--surface) 11px 22px,var(--blue) 22px 33px,var(--surface) 33px 44px)}
+.sheet{background:var(--surface);border-radius:8px;padding:22px 18px 20px;display:flex;flex-direction:column;gap:16px;position:relative}
+.kicker{font-size:.74rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);padding-right:74px}
+.stamp{position:absolute;top:12px;right:12px;width:60px;height:60px;border:2px dashed var(--red);border-radius:50%;color:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;line-height:1;transform:rotate(9deg);font-variant-numeric:tabular-nums}
+.stamp small{font-size:.55rem;letter-spacing:.12em}
+.stamp span{font-size:1.15rem}
+.q{font-size:1.45rem;font-weight:700;letter-spacing:-.015em;padding-right:60px}
+.q.plain{padding-right:0}
+p{margin:0}
+.hint{color:var(--muted);font-size:.93rem}
+.notice{border-left:3px solid var(--red);padding:8px 12px;background:var(--surface);border-radius:0 8px 8px 0;font-size:.9rem}
+
+label{font-size:.85rem;font-weight:600;display:block;margin-bottom:6px}
+input[type=text],textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px}
+textarea{min-height:84px;resize:vertical}
+.field{display:flex;flex-direction:column}
+.stack{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row > *{flex:1 1 130px}
+
+button{font:inherit;font-weight:600;cursor:pointer;border-radius:10px;padding:13px 16px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);min-height:48px}
+button.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+button.opt{background:transparent;color:var(--ink);border-color:var(--line);text-align:left;font-weight:500}
+button.opt.on{background:var(--blue);border-color:var(--blue);color:var(--paper);font-weight:600;text-align:center}
+button.th{display:flex;flex-direction:column;gap:1px;flex-basis:40%}
+button.th small{font-size:.75rem;font-weight:500;opacity:.8}
+button.link{background:none;border:none;color:var(--muted);text-decoration:underline;min-height:0;padding:6px;font-weight:500;font-size:.9rem}
+button:active{transform:translateY(1px)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+.ans{border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;overflow-wrap:anywhere}
+.ans small{display:block;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.ans.ok{border-color:var(--good)}
+.ans.ok small{color:var(--good)}
+.turn{border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:2px}
+.turn strong{font-family:var(--display);font-weight:800;font-size:1.3rem;line-height:1.15}
+.turn span{font-size:.9rem}
+.turn.me{background:var(--red);color:var(--paper)}
+.turn.both{background:var(--blue);color:var(--paper)}
+.turn.them{border:2px dashed var(--line);color:var(--muted)}
+.turn.them strong{color:var(--ink)}
+.timer{align-items:center}
+.timer span{font-family:var(--display);font-weight:800;font-size:1.6rem;font-variant-numeric:tabular-nums;color:var(--red)}
+.result{font-family:var(--display);font-weight:800;font-size:1.25rem}
+.result.win{color:var(--good)}
+.result.lose{color:var(--muted)}
+.status{font-size:.85rem;color:var(--muted);text-align:center;min-height:1.3em}
+.code{font-family:var(--display);font-weight:800;font-size:3rem;letter-spacing:.14em;text-align:center;font-variant-numeric:tabular-nums}
+.big{font-family:var(--display);font-weight:800;font-size:3.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.big small{font-size:1.2rem;color:var(--muted);font-weight:700}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);border-radius:99px}
+.journal{display:flex;flex-direction:column;gap:12px}
+.journal h3{font-size:1rem}
+.journal div p:first-child{font-weight:600;font-size:.92rem}
+.journal div p + p{font-size:.92rem;color:var(--muted);overflow-wrap:anywhere}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+.tools{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:.9rem;text-align:center}
+.tools:has(.link){flex-direction:row;justify-content:center;gap:18px}
+.tools .row{width:100%}
+.tally{text-align:center}
+.tally small{display:block;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.wirelabel strong{color:var(--ink)}
+.toast{position:fixed;left:16px;right:16px;bottom:18px;margin:auto;max-width:440px;background:var(--ink);color:var(--paper);padding:12px 14px;border-radius:10px;font-size:.9rem;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.pop{animation:pop .35s ease-out}
+@keyframes pop{from{transform:translateY(8px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){.wire{transition:none}.pop{animation:none}}
+
+/* ---------- thème romantique : cartes, pétales de rose et cœurs ---------- */
+:root{
+  --paper:#fcf0f2;--surface:#fffaf9;--ink:#3b1626;--muted:#8d5d6d;--line:#f1d0d9;
+  --red:#d9406a;--blue:#9c2f63;--good:#2f8a5f;--rose:#f6b3c4;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1d0e16;--surface:#2a1520;--ink:#fde9ef;--muted:#cf9fb0;--line:#4b2737;
+    --red:#ff8ca6;--blue:#f3a3c4;--good:#6fd6a6;--rose:#7a3550;
+  }
+}
+body{background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cpath fill='%23e05a78' fill-opacity='.10' transform='translate(4 4) scale(.6)' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3Cpath fill='%23e05a78' fill-opacity='.07' transform='translate(26 24) scale(.45)' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3C/svg%3E");background-attachment:fixed;min-height:100vh}
+.brand h1{font-style:italic;font-weight:600;letter-spacing:-.01em;font-size:1.7rem}
+.brand h1::after{content:"";display:inline-block;width:.7em;height:.7em;margin-left:.3em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23d9406a' fill-opacity='1' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3C/svg%3E") center/contain no-repeat;transform:translateY(.05em) rotate(-10deg)}
+.app{position:relative;z-index:1}
+
+/* le fil devient deux cœurs qui se rapprochent */
+.wire i{width:18px;height:18px;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239c2f63' fill-opacity='1' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3C/svg%3E") center/contain no-repeat}
+.wire i:last-child,.wire.met i{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23d9406a' fill-opacity='1' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3C/svg%3E") center/contain no-repeat}
+.wire.met i{animation:beat 1s ease-in-out infinite}
+.wire b{border-top:2px dotted var(--rose)}
+
+/* la carte */
+.letter{padding:2px;border-radius:26px;background:linear-gradient(140deg,var(--rose),var(--red) 45%,var(--blue));box-shadow:0 14px 34px -16px rgba(156,47,99,.55)}
+.sheet{border-radius:24px;padding:26px 20px 22px;overflow:hidden;background:var(--surface) radial-gradient(circle at 100% 0,color-mix(in srgb,var(--rose) 35%,transparent),transparent 45%)}
+.sheet::before,.sheet::after{content:"";position:absolute;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffc1cf'/%3E%3Cstop offset='1' stop-color='%23e0476f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' d='M20 3c9 4 15 12 13 21-2 8-9 13-13 13S9 32 7 24C5 15 11 7 20 3z'/%3E%3Cpath d='M20 8c-1 9 0 18 0 26' stroke='%23fff' stroke-opacity='.35' stroke-width='1.2' fill='none'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.85}
+.sheet::before{width:34px;height:34px;left:-6px;bottom:18px;transform:rotate(30deg)}
+.sheet::after{width:22px;height:22px;left:22px;bottom:-4px;transform:rotate(-40deg);opacity:.6}
+.kicker{color:var(--red);letter-spacing:.08em}
+.q{font-weight:600;font-size:1.55rem;letter-spacing:-.01em}
+.stamp{border:none;width:62px;height:58px;transform:rotate(8deg);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23d9406a' fill-opacity='1' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3C/svg%3E") center/contain no-repeat;color:#fff;padding-bottom:6px}
+.stamp small{font-family:var(--body);font-size:.5rem;opacity:.9}
+.stamp span{font-size:1.1rem}
+
+/* boutons et réponses plus doux */
+button{border-radius:999px;background:linear-gradient(135deg,var(--red),var(--blue));border:none;color:#fff;box-shadow:0 6px 16px -8px rgba(156,47,99,.7)}
+button.ghost,button.opt{background:var(--surface);border:1.5px solid var(--line);color:var(--ink);box-shadow:none}
+button.opt{border-radius:16px}
+button.opt.on{background:linear-gradient(135deg,var(--red),var(--blue));border-color:transparent;color:#fff}
+button.link{background:none;box-shadow:none;color:var(--muted)}
+input[type=text],textarea{border-radius:16px;background:color-mix(in srgb,var(--paper) 70%,var(--surface))}
+input[type=text]:focus,textarea:focus{border-color:var(--red);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 20%,transparent)}
+.ans{border-radius:16px;background:color-mix(in srgb,var(--rose) 14%,var(--surface));border-color:transparent}
+.ans.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 8%,var(--surface))}
+.turn{border-radius:20px}
+.turn.me{background:linear-gradient(135deg,var(--red),#ef7b95);color:#fff}
+.turn.both{background:linear-gradient(135deg,var(--blue),var(--red));color:#fff}
+.turn.them{border-color:var(--rose);background:color-mix(in srgb,var(--surface) 70%,transparent)}
+.turn.me strong::before,.turn.both strong::before{content:"";display:inline-block;width:.8em;height:.8em;margin-right:.35em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3C/svg%3E") center/contain no-repeat}
+.timer span{color:var(--red)}
+.result.win::after{content:"";display:inline-block;width:.8em;height:.8em;margin-left:.3em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232f8a5f' fill-opacity='1' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3C/svg%3E") center/contain no-repeat;animation:beat 1s ease-in-out 2}
+.code{color:var(--red);font-style:italic}
+.big{color:var(--red)}
+.toast{border-radius:999px;background:linear-gradient(135deg,var(--red),var(--blue));color:#fff}
+.stamp small{display:none}
+.stamp span{font-size:1.2rem;padding-top:4px}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) button:not(.ghost):not(.opt):not(.link),:root:not([data-theme="light"]) button.opt.on,
+  :root:not([data-theme="light"]) .turn.me,:root:not([data-theme="light"]) .turn.both,:root:not([data-theme="light"]) .toast,
+  :root:not([data-theme="light"]) .stamp{color:#2a0d18}
+}
+@keyframes beat{0%,100%{transform:scale(1)}30%{transform:scale(1.25)}60%{transform:scale(.95)}}
+
+/* pétales qui tombent */
+.petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.petals i{position:absolute;top:-40px;display:block;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffc1cf'/%3E%3Cstop offset='1' stop-color='%23e0476f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' d='M20 3c9 4 15 12 13 21-2 8-9 13-13 13S9 32 7 24C5 15 11 7 20 3z'/%3E%3Cpath d='M20 8c-1 9 0 18 0 26' stroke='%23fff' stroke-opacity='.35' stroke-width='1.2' fill='none'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.75;animation:fall linear infinite}
+.petals i.h{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f28aa5' fill-opacity='1' d='M12 21s-7.6-4.6-9.6-9.3C1.1 8.5 3.3 4.8 6.8 4.8c2.1 0 3.6 1.1 4.4 2.6.8-1.5 2.3-2.6 4.4-2.6 3.5 0 5.7 3.7 4.4 6.9C19.6 16.4 12 21 12 21z'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.55}
+@keyframes fall{0%{transform:translate3d(0,-40px,0) rotate(0)}50%{transform:translate3d(var(--x),50vh,0) rotate(180deg)}100%{transform:translate3d(calc(var(--x) * -.5),105vh,0) rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.petals{display:none}.wire.met i,.result.win::after{animation:none}}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+</head>
+<body>
+<div class="petals" id="petals" aria-hidden="true"></div>
+<div class="app">
+  <header>
+    <div class="brand"><h1>Loin des yeux</h1><span id="meta"></span></div>
+  </header>
+  <div id="wirebox"></div>
+  <main id="stage"></main>
+  <div class="status" id="status" aria-live="polite"></div>
+  <div class="tools" id="tools"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ---------- contenu ---------- */
+const KNOW=[
+ ["Quel plat pourrais-tu manger tous les jours ?","Quel plat ta moitié pourrait manger tous les jours ?"],
+ ["Quelle chanson te met de bonne humeur à coup sûr ?","Quelle chanson met ta moitié de bonne humeur à coup sûr ?"],
+ ["Quelle est ta plus grande peur un peu ridicule ?","Quelle est la plus grande peur un peu ridicule de ta moitié ?"],
+ ["Si tu partais demain, quelle destination choisirais-tu ?","Si ta moitié partait demain, quelle destination choisirait-elle ?"],
+ ["Quel est ton premier souvenir de vous deux ?","Quel est le premier souvenir que ta moitié garde de vous deux ?"],
+ ["Quel métier rêvais-tu de faire enfant ?","Quel métier ta moitié rêvait-elle de faire enfant ?"],
+ ["Qu'est-ce qui t'énerve le plus au quotidien ?","Qu'est-ce qui énerve le plus ta moitié au quotidien ?"],
+ ["Quelle application ouvres-tu en premier le matin ?","Quelle application ta moitié ouvre-t-elle en premier le matin ?"],
+ ["Quel film ou quelle série peux-tu revoir sans te lasser ?","Quel film ou quelle série ta moitié peut-elle revoir sans se lasser ?"],
+ ["Quelle est ta boisson réconfort ?","Quelle est la boisson réconfort de ta moitié ?"],
+ ["Quel cadeau t'a fait le plus plaisir dans ta vie ?","Quel cadeau a fait le plus plaisir à ta moitié dans sa vie ?"],
+ ["Laquelle de ses habitudes te fait craquer ?","Laquelle de tes habitudes fait craquer ta moitié ?"],
+ ["À quelle heure es-tu au meilleur de ta forme ?","À quelle heure ta moitié est-elle au meilleur de sa forme ?"],
+ ["Quel est ton talent caché ?","Quel est le talent caché de ta moitié ?"],
+ ["Quelle odeur te rappelle ton enfance ?","Quelle odeur rappelle son enfance à ta moitié ?"],
+ ["Qu'est-ce qui te manque le plus quand vous êtes loin ?","Qu'est-ce qui manque le plus à ta moitié quand vous êtes loin ?"],
+ ["Quel est ton plus grand rêve ?","Quel est le plus grand rêve de ta moitié ?"],
+ ["Quelle matière détestais-tu à l'école ?","Quelle matière ta moitié détestait-elle à l'école ?"],
+ ["Quel est ton emoji le plus utilisé ?","Quel est l'emoji le plus utilisé par ta moitié ?"],
+ ["Qu'emporterais-tu sur une île déserte ?","Qu'est-ce que ta moitié emporterait sur une île déserte ?"],
+ ["Quel est ton pire souvenir de cuisine ?","Quel est le pire souvenir de cuisine de ta moitié ?"],
+ ["Quelle célébrité aimerais-tu rencontrer ?","Quelle célébrité ta moitié aimerait-elle rencontrer ?"],
+ ["Qu'est-ce qui te fait rire à tous les coups ?","Qu'est-ce qui fait rire ta moitié à tous les coups ?"],
+ ["Quelle activité te défoule le plus ?","Quelle activité défoule le plus ta moitié ?"],
+ ["Quelle est ta saison préférée ?","Quelle est la saison préférée de ta moitié ?"],
+ ["Quel est ton meilleur achat de l'année ?","Quel est le meilleur achat de l'année de ta moitié ?"],
+ ["Quelle expression répètes-tu tout le temps ?","Quelle expression ta moitié répète-t-elle tout le temps ?"],
+ ["Quelle est la première chose que tu fais en rentrant chez toi ?","Quelle est la première chose que ta moitié fait en rentrant chez elle ?"]
+];
+const DARE=[
+ "Imiter l'autre quand il ou elle vient de se réveiller.",
+ "Dessiner le portrait de l'autre en 30 secondes et le montrer à la caméra.",
+ "Mimer votre première rencontre sans dire un mot.",
+ "Faire visiter un coin de la pièce comme un guide de musée.",
+ "Chanter un refrain en remplaçant les paroles par le prénom de l'autre.",
+ "Présenter la météo de sa ville avec le plus grand sérieux.",
+ "Tenir 20 secondes sans rire pendant que l'autre fait des grimaces.",
+ "Montrer l'objet le plus étrange à portée de main et inventer son histoire.",
+ "Faire une déclaration avec l'accent de son choix.",
+ "Raconter sa journée comme une bande-annonce de film d'action.",
+ "Faire deviner un film à l'autre uniquement avec des bruitages.",
+ "Danser 15 secondes sur une musique choisie par l'autre.",
+ "Vendre à l'autre un objet banal comme dans un téléachat.",
+ "Décrire l'autre comme un commentateur sportif en plein match.",
+ "Faire un défilé de mode avec ce qui traîne dans la pièce.",
+ "Imiter trois animaux que l'autre doit reconnaître.",
+ "Présenter une émission de cuisine avec ce qu'il y a dans le frigo.",
+ "Rejouer une scène de film culte en jouant tous les rôles.",
+ "Garder un objet en équilibre sur la tête pendant 15 secondes.",
+ "Faire deviner trois métiers à l'autre en les mimant.",
+ "Montrer sa plus belle grimace et la tenir 10 secondes.",
+ "Faire un compliment à l'autre en chuchotant comme un secret d'État."
+];
+const DAREV=[
+ "Imiter l'autre quand il ou elle vient de se réveiller.",
+ "Chanter un refrain en remplaçant les paroles par le prénom de l'autre.",
+ "Présenter la météo de sa ville avec le plus grand sérieux.",
+ "Faire une déclaration avec l'accent de son choix.",
+ "Raconter sa journée comme une bande-annonce de film d'action.",
+ "Faire deviner un film à l'autre uniquement avec des bruitages.",
+ "Vendre à l'autre un objet banal comme dans un téléachat.",
+ "Décrire l'autre comme un commentateur sportif en plein match.",
+ "Faire deviner un animal uniquement avec son cri.",
+ "Dire « tu me manques » de cinq façons différentes sans rire.",
+ "Lire son dernier message reçu avec une voix de journal télévisé.",
+ "Tenir 20 secondes sans rire pendant que l'autre fait des bruits bizarres.",
+ "Décrire la pièce où l'on se trouve jusqu'à ce que l'autre devine laquelle c'est.",
+ "Fredonner une chanson jusqu'à ce que l'autre la reconnaisse.",
+ "Raconter un souvenir commun en parlant comme un robot.",
+ "Faire la voix d'un GPS qui guide l'autre jusqu'à chez soi.",
+ "Inventer et chanter un jingle publicitaire pour votre couple.",
+ "Compter jusqu'à 20 en changeant de voix à chaque chiffre.",
+ "Faire un compliment à l'autre en chuchotant comme un secret d'État.",
+ "Réciter l'alphabet le plus vite possible sans se tromper."
+];
+const QUIZ=[
+ {q:"Quel pays compte le plus de fuseaux horaires, outre-mer compris ?",o:["La Russie","Les États-Unis","La France","Le Royaume-Uni"],c:2,x:"La France en couvre 12 grâce à ses territoires d'outre-mer, contre 11 pour la Russie."},
+ {q:"Combien de temps la lumière du Soleil met-elle à atteindre la Terre ?",o:["8 secondes","Environ 8 minutes","1 heure","1 jour"],c:1,x:"Un peu plus de 8 minutes. Votre appel vidéo, lui, arrive en une fraction de seconde."},
+ {q:"Quelle est la distance moyenne entre la Terre et la Lune ?",o:["38 000 km","384 000 km","3,8 millions de km","38 millions de km"],c:1,x:"Environ 384 400 km. Votre distance paraît tout de suite plus raisonnable."},
+ {q:"Quelle hormone surnomme-t-on l'hormone de l'attachement ?",o:["L'adrénaline","L'insuline","La mélatonine","L'ocytocine"],c:3,x:"L'ocytocine est libérée pendant les câlins et les moments de confiance."},
+ {q:"Que disait le tout premier SMS, envoyé en 1992 ?",o:["Hello","Merry Christmas","Test","Call me"],c:1,x:"« Merry Christmas », envoyé le 3 décembre 1992 d'un ordinateur vers un téléphone."},
+ {q:"Combien de cœurs possède une pieuvre ?",o:["Un","Deux","Trois","Huit"],c:2,x:"Trois : deux pour les branchies, un pour le reste du corps."},
+ {q:"Quelle langue compte le plus de locuteurs natifs au monde ?",o:["Le mandarin","L'anglais","L'espagnol","L'hindi"],c:0,x:"Le mandarin, loin devant. L'anglais domine seulement si l'on compte ceux qui l'ont appris plus tard."},
+ {q:"Quelle est la capitale de l'Australie ?",o:["Sydney","Melbourne","Perth","Canberra"],c:3,x:"Canberra, construite exprès pour départager Sydney et Melbourne."},
+ {q:"Sur quelle planète un jour dure-t-il plus longtemps qu'une année ?",o:["Mars","Vénus","Jupiter","Saturne"],c:1,x:"Vénus met environ 243 jours terrestres à tourner sur elle-même, et 225 à faire le tour du Soleil."},
+ {q:"Qu'est-ce que le kintsugi, au Japon ?",o:["L'art de plier le papier","La cérémonie du thé","L'art de réparer la céramique avec de l'or","L'art des bouquets"],c:2,x:"On souligne les fissures à l'or : l'objet recollé devient plus précieux qu'avant."},
+ {q:"Quel oiseau forme des couples qui durent des dizaines d'années ?",o:["Le moineau","L'albatros","Le colibri","La poule"],c:1,x:"Les albatros passent des mois séparés en mer et se retrouvent chaque année au même nid."},
+ {q:"Combien d'os compte le squelette d'un adulte ?",o:["106","206","306","406"],c:1,x:"206. Un bébé en a près de 300, qui se soudent en grandissant."},
+ {q:"Quel aliment peut se conserver des milliers d'années ?",o:["Le miel","Le pain","Le fromage","Le lait"],c:0,x:"On a retrouvé du miel encore comestible dans des tombes de l'Égypte ancienne."},
+ {q:"Quel est le plus petit État du monde ?",o:["Monaco","Saint-Marin","Malte","Le Vatican"],c:3,x:"Le Vatican : moins d'un demi-kilomètre carré."},
+ {q:"Pourquoi voit-on toujours la même face de la Lune ?",o:["Elle ne tourne pas","Elle tourne sur elle-même au rythme de son tour de la Terre","L'autre face est toujours dans le noir","C'est une illusion d'optique"],c:1,x:"Elle fait un tour sur elle-même pendant exactement un tour de la Terre."},
+ {q:"Quel est le plus grand océan du monde ?",o:["L'Atlantique","L'océan Indien","Le Pacifique","L'Arctique"],c:2,x:"Le Pacifique couvre à lui seul près d'un tiers de la surface de la Terre."},
+ {q:"Quel est le plus long fleuve d'Afrique ?",o:["Le Congo","Le Niger","Le Nil","Le Zambèze"],c:2,x:"Le Nil parcourt environ 6 650 km avant de rejoindre la Méditerranée."},
+ {q:"Combien de pays compte le continent africain ?",o:["34","44","54","64"],c:2,x:"54 États reconnus par l'ONU."},
+ {q:"Dans quel pays est né le tango ?",o:["L'Espagne","L'Argentine","Le Brésil","Cuba"],c:1,x:"Il est né à la fin du XIXe siècle sur les rives du Río de la Plata, entre l'Argentine et l'Uruguay."},
+ {q:"Quelle part de notre énergie le cerveau consomme-t-il au repos ?",o:["2 %","10 %","20 %","50 %"],c:2,x:"Environ 20 %, alors qu'il ne pèse que 2 % du corps."},
+ {q:"Quel est l'animal terrestre le plus rapide ?",o:["Le lion","L'antilope","Le lévrier","Le guépard"],c:3,x:"Le guépard dépasse les 100 km/h, mais seulement sur quelques centaines de mètres."},
+ {q:"Combien de langues sont parlées dans le monde, environ ?",o:["700","2 000","7 000","20 000"],c:2,x:"Environ 7 000. De quoi apprendre encore quelques mots doux."},
+ {q:"Quelle planète est la plus proche du Soleil ?",o:["Vénus","Mercure","Mars","La Terre"],c:1,x:"Mercure, qui fait le tour du Soleil en 88 jours."},
+ {q:"De quelle couleur est la boîte noire d'un avion ?",o:["Noire","Orange","Jaune","Blanche"],c:1,x:"Orange vif, pour être retrouvée plus facilement."},
+ {q:"Quel est l'élément le plus abondant dans l'Univers ?",o:["L'oxygène","Le carbone","L'hydrogène","Le fer"],c:2,x:"L'hydrogène, le carburant des étoiles."},
+ {q:"Combien de fois un cœur humain bat-il par jour, environ ?",o:["10 000","100 000","1 million","10 millions"],c:1,x:"Autour de 100 000 battements, et un peu plus pendant vos appels."},
+ {q:"Dans quelle ville se trouve le Taj Mahal ?",o:["New Delhi","Bombay","Agra","Jaipur"],c:2,x:"À Agra. L'empereur Shah Jahan l'a fait construire en mémoire de son épouse Mumtaz Mahal."}
+];
+const DIL=[
+ {q:"Pour vos prochaines retrouvailles ?",o:["Week-end surprise dans une ville inconnue","Trois jours à la maison sans sortir"]},
+ {q:"Tu préfères recevoir…",o:["Un long message vocal","Une lettre écrite à la main"]},
+ {q:"La soirée à distance idéale ?",o:["Regarder le même film en même temps","Cuisiner la même recette en visio"]},
+ {q:"Si vous gagniez un voyage ?",o:["Plage et farniente","Montagne et randonnée"]},
+ {q:"Plutôt…",o:["Un appel court tous les jours","Un très long appel par semaine"]},
+ {q:"Dans dix ans, vous vivez…",o:["Dans une grande ville","À la campagne ou près de la mer"]},
+ {q:"Le super-pouvoir le plus utile pour vous deux ?",o:["Se téléporter","Lire dans les pensées de l'autre"]},
+ {q:"En cas de dispute à distance ?",o:["On s'appelle tout de suite","On laisse passer la nuit"]},
+ {q:"Le meilleur cadeau ?",o:["Un objet qui dure","Un moment à vivre ensemble"]},
+ {q:"Le dimanche parfait ?",o:["Grasse matinée et brunch","Lever tôt et programme chargé"]},
+ {q:"Pour se dire bonne nuit ?",o:["Un message","Un appel, même de deux minutes"]},
+ {q:"Un animal à la maison ?",o:["Un chat","Un chien"]},
+ {q:"Avec un mois de vacances ensemble ?",o:["Un seul pays, en prenant le temps","Cinq pays au pas de course"]},
+ {q:"Votre futur chez-vous ?",o:["Petit et en plein centre","Grand et un peu loin de tout"]},
+ {q:"Pour un message important ?",o:["Un vocal","Un texto bien écrit"]},
+ {q:"Le petit-déjeuner idéal ?",o:["Sucré","Salé"]},
+ {q:"Une soirée avec des amis ?",o:["On reçoit à la maison","On sort"]},
+ {q:"En voyage ?",o:["Tout est planifié","On improvise"]},
+ {q:"Votre rythme à deux ?",o:["Lève-tôt","Couche-tard"]},
+ {q:"Pour fêter une bonne nouvelle ?",o:["Un grand restaurant","Un plat maison et un film"]},
+ {q:"Pendant un long trajet ensemble ?",o:["On discute tout le long","Musique et silence complice"]},
+ {q:"Les cadeaux ?",o:["J'adore les surprises","Je préfère choisir"]},
+ {q:"S'il fallait apprendre quelque chose à deux ?",o:["Une langue","Une danse"]},
+ {q:"Les photos de couple ?",o:["On les publie","On les garde pour nous"]}
+];
+const TEACH=[
+ "Apprends-lui un mot dans une langue qu'il ou elle ne parle pas.",
+ "Apprends-lui une expression de ta famille ou de ta région.",
+ "Apprends-lui un mot d'argot que tu utilises avec tes amis.",
+ "Apprends-lui un terme de ton métier ou de tes études.",
+ "Apprends-lui le nom d'un plat de ton enfance.",
+ "Apprends-lui un proverbe que tu aimes.",
+ "Apprends-lui une salutation dans une autre langue.",
+ "Apprends-lui un mot que tu trouves beau.",
+ "Apprends-lui un mot que seuls les gens de ta ville comprennent.",
+ "Apprends-lui une abréviation que tu utilises tout le temps."
+];
+const ROM=[
+ "Quel moment avec ta moitié aimerais-tu revivre ?",
+ "Qu'est-ce qui t'a fait craquer en premier chez ta moitié ?",
+ "Quelle est la première chose que tu feras à vos retrouvailles ?",
+ "Quel petit geste de sa part te touche le plus ?",
+ "Quelle chanson te fait penser à vous deux ?",
+ "Qu'est-ce que tu admires le plus chez ta moitié ?",
+ "Quel est ton plus beau souvenir de vous deux ?",
+ "Décris votre journée parfaite ensemble.",
+ "Qu'est-ce que la distance t'a appris sur vous deux ?",
+ "Quel rêve aimerais-tu réaliser avec ta moitié ?",
+ "Quand as-tu su que c'était sérieux entre vous ?",
+ "Quel compliment ne lui fais-tu pas assez souvent ?",
+ "Où vous imagines-tu dans cinq ans ?",
+ "Qu'est-ce qui te fait sourire quand tu penses à ta moitié ?",
+ "Quelle qualité de ta moitié te manque le plus au quotidien ?",
+ "Si tu devais lui écrire une seule phrase ce soir, ce serait laquelle ?",
+ "Quel surnom aimes-tu que ta moitié te donne ?",
+ "Quel endroit aimerais-tu lui faire découvrir ?",
+ "Qu'est-ce que tu as appris grâce à ta moitié ?",
+ "Quelle est la plus belle surprise que ta moitié t'ait faite ?",
+ "Quel petit rituel aimerais-tu instaurer entre vous ?",
+ "Qu'est-ce qui te rassure chez ta moitié ?",
+ "Quel moment de la journée te fait le plus penser à ta moitié ?",
+ "Quelle est ta façon préférée de dire je t'aime sans le dire ?"
+];
+/* questions pimentées, tendres et pudiques */
+const SPI=[
+ ["À quel moment as-tu trouvé ta moitié la plus attirante ?","À quel moment ta moitié t'a trouvé·e le plus attirant·e ?"],
+ ["Quelle tenue aimerais-tu voir ta moitié porter à vos retrouvailles ?","Quelle tenue ta moitié aimerait te voir porter à vos retrouvailles ?"],
+ ["Où aimerais-tu recevoir un bisou, là, tout de suite ?","Où ta moitié aimerait recevoir un bisou, là, tout de suite ?"],
+ ["Quelle odeur ou quel parfum te fait penser à ta moitié ?","Quelle odeur ou quel parfum fait penser à toi, pour ta moitié ?"],
+ ["Comment serait votre rendez-vous en tête-à-tête idéal ?","Comment ta moitié imagine votre rendez-vous en tête-à-tête idéal ?"],
+ ["Quel compliment sur ton physique t'a le plus touché·e ?","Quel compliment sur son physique a le plus touché ta moitié ?"],
+ ["Qu'est-ce qui te fait le plus craquer chez ta moitié pendant un appel ?","Qu'est-ce qui fait le plus craquer ta moitié chez toi pendant un appel ?"],
+ ["Un câlin ou un bisou : lequel te manque le plus ce soir ?","Un câlin ou un bisou : lequel manque le plus à ta moitié ce soir ?"],
+ ["Quel geste tendre aimerais-tu que ta moitié fasse plus souvent ?","Quel geste tendre ta moitié aimerait que tu fasses plus souvent ?"],
+ ["Une soirée rien qu'à vous deux, sans téléphone : tu proposes quoi ?","Une soirée rien qu'à vous deux, sans téléphone : ta moitié propose quoi ?"],
+ ["Qu'est-ce qui te manque le plus chez ta moitié, physiquement ?","Qu'est-ce qui manque le plus à ta moitié chez toi, physiquement ?"],
+ ["Slow collé-serré ou danse folle pour vos retrouvailles ?","Slow collé-serré ou danse folle : que choisit ta moitié pour vos retrouvailles ?"],
+ ["Quel surnom doux aimerais-tu que ta moitié te donne ?","Quel surnom doux ta moitié aimerait que tu lui donnes ?"],
+ ["Quel détail de son visage pourrais-tu regarder pendant des heures ?","Quel détail de ton visage ta moitié pourrait regarder pendant des heures ?"],
+ ["Dans ses bras ou main dans la main : tu choisis quoi pour une balade ?","Dans tes bras ou main dans la main : que choisit ta moitié pour une balade ?"],
+ ["Qu'est-ce que ta moitié fait sans le savoir et qui te fait craquer ?","Qu'est-ce que tu fais sans le savoir et qui fait craquer ta moitié ?"],
+ ["Quelle chanson mettrais-tu pour un moment romantique à deux ?","Quelle chanson ta moitié mettrait pour un moment romantique à deux ?"],
+ ["Où aimerais-tu partir en amoureux, juste vous deux ?","Où ta moitié aimerait partir en amoureux, juste vous deux ?"],
+ ["Quel est ton plus beau souvenir de câlin avec ta moitié ?","Quel est le plus beau souvenir de câlin de ta moitié avec toi ?"],
+ ["Quelle partie de ta journée aimerais-tu passer collé·e à ta moitié ?","Quelle partie de sa journée ta moitié aimerait passer collée à toi ?"],
+ ["Qu'est-ce qui t'a donné envie de l'embrasser la première fois ?","Qu'est-ce qui a donné envie à ta moitié de t'embrasser la première fois ?"],
+ ["Quel message de ta moitié t'a déjà fait rougir ?","Quel message de toi a déjà fait rougir ta moitié ?"]
+];
+const GAGES=["Chanter une chanson d'amour en entier au prochain appel","Écrire un petit poème pour l'autre, ce soir",
+ "Envoyer une photo de ta grimace la plus moche","Faire une déclaration d'amour avec un accent","Préparer une playlist de 5 chansons pour l'autre",
+ "Envoyer un message vocal tout mignon demain matin","Dire 5 qualités de l'autre sans hésiter","Raconter ton souvenir préféré de vous deux",
+ "Imiter l'autre pendant une minute","Laisser l'autre choisir ta photo de profil pendant 24 h","Faire 10 pompes en disant « je t'aime » à chacune",
+ "Écrire une lettre d'amour à envoyer avant la fin de la semaine"];
+/* mini-jeux */
+const TABOO=[
+ ["Avion",["voler","ciel","aéroport","pilote"]],["Téléphone",["appeler","portable","écran","sonner"]],
+ ["Mariage",["épouser","robe","alliance","cérémonie"]],["Valise",["voyage","bagage","vêtements","roulettes"]],
+ ["Décalage horaire",["heure","fuseau","voyage","fatigue"]],["Selfie",["photo","téléphone","soi","sourire"]],
+ ["Wifi",["internet","connexion","réseau","box"]],["Pizza",["Italie","fromage","tomate","four"]],
+ ["Réveil",["matin","sonner","dormir","heure"]],["Bisou",["lèvres","embrasser","joue","amour"]],
+ ["Plage",["sable","mer","soleil","maillot"]],["Aéroport",["avion","décoller","valise","vol"]],
+ ["Anniversaire",["gâteau","bougies","âge","cadeau"]],["Chocolat",["cacao","sucré","noir","tablette"]],
+ ["Football",["ballon","but","match","stade"]],["Pluie",["eau","nuage","parapluie","mouillé"]],
+ ["Lune",["nuit","ciel","étoile","soleil"]],["Jalousie",["jaloux","amour","envie","couple"]],
+ ["Message vocal",["audio","écouter","parler","enregistrer"]],["Belle-mère",["mère","mari","femme","famille"]],
+ ["Câlin",["bras","serrer","tendresse","bisou"]],["Retrouvailles",["revoir","gare","aéroport","manquer"]],
+ ["Grasse matinée",["dormir","lit","tard","dimanche"]],["Appel vidéo",["caméra","écran","voir","téléphone"]]
+];
+const WAVE=["Un fruit","Une couleur","Un plat que vous adorez tous les deux","Une ville où vous aimeriez vivre","Un animal de compagnie",
+ "Un prénom pour un futur enfant","Une chanson de votre histoire","Un pays à visiter ensemble","Un film à regarder ce soir","Un chiffre entre 1 et 10",
+ "Un parfum de glace","Un jour de la semaine","Un sport","Une boisson chaude","Un super-héros","Une saison","Un mot qui décrit votre couple",
+ "Un métier de rêve","Un instrument de musique","Un moyen de transport","Le mois de vos prochaines retrouvailles","Un plat à cuisiner ensemble"];
+const WHO=["oublie le plus souvent de répondre aux messages ?","s'endort en premier pendant un appel ?","fait le plus de crises de jalousie ?",
+ "met le plus de temps à se préparer ?","dépense le plus ?","pleure devant un film ?","a dit « je t'aime » en premier ?","boude le plus longtemps ?",
+ "cuisine le mieux ?","chante le plus faux ?","est toujours en retard ?","fait le premier pas après une dispute ?","raconte les blagues les moins drôles ?",
+ "se perd même avec un GPS ?","mange dans l'assiette de l'autre ?","envoie le plus de messages par jour ?","a le plus mauvais caractère au réveil ?",
+ "garde le mieux un secret ?","prend le plus de photos ?","organiserait le mieux un voyage ?","survivrait le plus longtemps sans téléphone ?","a le plus souvent raison ?"];
+const LIE=["sur ton enfance","sur ta semaine","sur tes années d'école","sur ta famille","sur tes voyages","sur ta vie avant votre rencontre",
+ "sur ce que tu as fait aujourd'hui","sur tes talents cachés","sur tes pires bêtises","sur tes goûts"];
+/* thème Teranga : cartes spéciales Sénégal */
+const KNOWSN=[
+ ["Quel plat sénégalais pourrais-tu manger tous les jours ?","Quel plat sénégalais ta moitié pourrait-elle manger tous les jours ?"],
+ ["Thiéboudienne, yassa ou mafé : lequel choisis-tu ?","Thiéboudienne, yassa ou mafé : lequel ta moitié choisit-elle ?"],
+ ["Qu'est-ce que tu préfères au Sénégal ?","Qu'est-ce que ta moitié préfère au Sénégal ?"],
+ ["Quel est ton endroit préféré au Sénégal ?","Quel est l'endroit préféré de ta moitié au Sénégal ?"],
+ ["Quelle chanson sénégalaise te fait danser à coup sûr ?","Quelle chanson sénégalaise fait danser ta moitié à coup sûr ?"],
+ ["Quel verre d'ataya préfères-tu : le premier, le deuxième ou le troisième ?","Quel verre d'ataya ta moitié préfère-t-elle : le premier, le deuxième ou le troisième ?"],
+ ["Quelle fête attends-tu le plus dans l'année ?","Quelle fête ta moitié attend-elle le plus dans l'année ?"],
+ ["Quelle phrase tes parents répètent-ils tout le temps ?","Quelle phrase les parents de ta moitié répètent-ils tout le temps ?"],
+ ["Quel souvenir d'enfance au pays te fait encore sourire ?","Quel souvenir d'enfance au pays fait encore sourire ta moitié ?"]
+];
+const QUIZSN=[
+ {q:"Que veut dire « teranga » en wolof ?",o:["Le courage","L'hospitalité","La famille","La patience"],c:1,x:"L'hospitalité, au point que le Sénégal est surnommé le pays de la Teranga."},
+ {q:"En quelle année le Sénégal est-il devenu indépendant ?",o:["1958","1960","1962","1968"],c:1,x:"En 1960. Le 4 avril est resté le jour de la fête nationale."},
+ {q:"Qui a été le premier président du Sénégal ?",o:["Abdou Diouf","Mamadou Dia","Léopold Sédar Senghor","Cheikh Anta Diop"],c:2,x:"Senghor, poète, a aussi été le premier Africain élu à l'Académie française."},
+ {q:"Quel plat sénégalais est inscrit au patrimoine immatériel de l'UNESCO ?",o:["Le yassa","Le mafé","Le thiéboudienne","Le thiakry"],c:2,x:"Le ceebu jën, né à Saint-Louis, y est inscrit depuis 2021."},
+ {q:"Quelle est la devise du Sénégal ?",o:["Un peuple, un but, une foi","Unité, travail, progrès","Paix, travail, patrie","Union, discipline, travail"],c:0,x:"« Un peuple, un but, une foi »."},
+ {q:"Quel est le point le plus à l'ouest de l'Afrique continentale ?",o:["Le cap Skirring","La pointe des Almadies","La langue de Barbarie","Le cap Manuel"],c:1,x:"La pointe des Almadies, à Dakar."},
+ {q:"À quoi le lac Retba doit-il sa couleur rose ?",o:["À l'argile du fond","À une micro-algue qui aime le sel","Au reflet du coucher de soleil","À des coquillages"],c:1,x:"Une micro-algue qui produit un pigment rouge pour résister au sel."},
+ {q:"Quel artiste a fait connaître le mbalax dans le monde entier ?",o:["Baaba Maal","Ismaël Lô","Youssou N'Dour","Omar Pène"],c:2,x:"Youssou N'Dour, avec le Super Étoile de Dakar."},
+ {q:"Quelle ville était la capitale du Sénégal avant Dakar ?",o:["Thiès","Saint-Louis","Rufisque","Kaolack"],c:1,x:"Saint-Louis, à l'embouchure du fleuve Sénégal."},
+ {q:"Quel arbre est l'emblème du Sénégal ?",o:["Le manguier","Le fromager","Le baobab","Le palmier"],c:2,x:"Le baobab, que l'on retrouve sur les armoiries du pays."},
+ {q:"Quel est le surnom de l'équipe nationale de football ?",o:["Les Éléphants","Les Aigles","Les Lions de la Teranga","Les Étalons"],c:2,x:"Les Lions de la Teranga."},
+ {q:"Quel pays est presque entièrement entouré par le Sénégal ?",o:["La Guinée-Bissau","La Gambie","La Mauritanie","Le Cap-Vert"],c:1,x:"La Gambie, qui suit le fleuve du même nom."},
+ {q:"Quelle île au large de Dakar est classée au patrimoine mondial ?",o:["L'île de Ngor","L'île de Gorée","L'île de la Madeleine","L'île de Carabane"],c:1,x:"Gorée, lieu de mémoire de la traite, classée depuis 1978."}
+];
+const DILSN=[
+ {q:"Dimanche midi ?",o:["Thiéboudienne","Yassa poulet"]},
+ {q:"Pour le goûter ?",o:["Thiakry","Beignets"]},
+ {q:"À boire ?",o:["Bissap","Bouye"]},
+ {q:"Les vacances au pays ?",o:["À la plage","En famille au village"]},
+ {q:"L'ataya ?",o:["Bien sucré","Bien corsé"]},
+ {q:"Un dimanche à Dakar ?",o:["Balade sur la corniche","Journée à Gorée"]},
+ {q:"La soirée idéale ?",o:["Match des Lions","Combat de lutte"]}
+];
+const DARESN=[
+ "Commenter un combat de lutte imaginaire comme à la radio.",
+ "Marchander avec l'autre le prix d'un objet de la pièce, comme au marché.",
+ "Imiter un chauffeur de taxi dakarois qui négocie la course.",
+ "Chanter le refrain d'une chanson sénégalaise que l'autre doit reconnaître.",
+ "Imiter une tante qui demande à quand le mariage.",
+ "Présenter la recette du thiéboudienne comme un grand chef à la télévision.",
+ "Commenter un but des Lions de la Teranga comme en finale."
+];
+const TEACHSN=[
+ "Apprends-lui un mot ou une expression dans ta langue maternelle.",
+ "Apprends-lui un proverbe du pays.",
+ "Apprends-lui un mot que l'on n'utilise que dans ta région ou ton village.",
+ "Apprends-lui une expression que tes parents répètent tout le temps.",
+ "Apprends-lui un mot d'une langue du Sénégal qu'il ou elle ne parle pas."
+];
+const LABEL={taboo:"Mot interdit",wave:"Même longueur d'onde",who:"Lequel de vous deux ?",lie:"Vrai ou mytho",rom:"Cœur à cœur",spi:"Pimenté",know:"Qui me connaît ?",dare:"Défi",quiz:"Quiz à deux",dil:"Et si…",teach:"Apprends-moi",recall:"Tu t'en souviens ?"};
+const LEVELS=[[0,"Premier appel"],[12,"Fuseaux alignés"],[30,"Longue portée"],[55,"Télépathes"],[90,"Zéro kilomètre"]];
+
+/* ---------- état ---------- */
+const BUILD=30;
+const LBL={know:"Qui me connaît ?",dare:"Défi",quiz:"Quiz",dil:"Et si…",teach:"Apprends-moi",recall:"Tu t'en souviens ?",rom:"Cœur à cœur",spi:"Pimenté",
+  taboo:"Mot interdit",wave:"Même longueur d'onde",who:"Lequel de vous deux ?",lie:"Vrai ou mytho"};
+const fresh=()=>({screen:"home",code:"",role:"a",ep:0,n:1,round:0,go:false,moves:{},rem:{},hist:[],names:{a:"",b:""}});
+let S=fresh(), draft={}, roomNS=null, chan=null, offPeers=null, partner=null, mismatch=false;
+let callKind="video", themeKind=0, lastStage="", lastWire="", lastTools="", tick=0, askReset=false;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])).replace(/ ([?!])/g," $1");
+const other=r=>r==="a"?"b":"a";
+const linked=()=>!!partner;
+const Name=role=>role===S.role?"Toi":(S.names[role]||"Ta moitié");
+const nameOf=role=>role===S.role?"toi":(S.names[role]||"ta moitié");
+const pn=()=>Name(other(S.role)), pm=()=>nameOf(other(S.role));
+const de=n=>/^[aeiouyhàâäéèêëîïôöùûü]/i.test(n)?"d'"+n:"de "+n;
+const mv=(r,role)=>(role===S.role?S.moves:S.rem)["r"+r]||null;
+const has=(r,role)=>{const m=mv(r,role);return !!m&&m.v!=null};
+function toast(t){const el=$("toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),3200)}
+function persist(){try{localStorage.setItem("ldy2",JSON.stringify(S))}catch(e){} pushPresence()}
+
+/* ---------- paquet de cartes : le code donne le même paquet sur les deux téléphones ---------- */
+const ALPHA="ABCDEFGHJKMNPQRSTUVWXYZ", VOICE_END="ABCDEFGHJKM", VIDEO_END="NPQRSTUVWXYZ";
+const THEMES=[
+ {name:"Classique",hint:"Un peu de tout",p:"kA o q xB tA kB d tB w c4 r bA kA c7 kB r"},
+ {name:"Romantique",hint:"Plus de cœur à cœur",p:"kA r d tA kB sA xB tB r c3 kA d sB c7 r kB"},
+ {name:"Fou rire",hint:"Défis et mini-jeux",p:"xA o bB xB tA w xA tB lA c4 bA o xA c7 xB r"},
+ {name:"Découverte",hint:"Plus de quiz et de mots",p:"q kA tA q tB d q c2 kB tA q c4 xB q c9 r"},
+ {name:"Teranga",hint:"Spécial Sénégal",sn:true,p:"q kA tA xB q d kB tB q c2 xA d kA c7 q r"},
+ {name:"Mini-jeux",hint:"Presque sans questions",p:"bA w o lB bB w kA o lA xB w bA o xA bB r"},
+ {name:"Pimenté",hint:"Tendre et un peu osé",p:"sA kA tA sB kB r sA xB c2 lA sB w tB sA c12 kB"}
+];
+const theme=()=>{const i=S.code?ALPHA.indexOf(S.code[2]):0;return THEMES[(i<0?0:i)%THEMES.length]};
+const voice=()=>!!S.code&&VOICE_END.includes(S.code[3]);
+const bk=t=>{const sn=!!theme().sn;return {know:sn?KNOWSN:KNOW,quiz:sn?QUIZSN:QUIZ,dil:sn?DILSN:DIL,teach:sn?TEACHSN:TEACH,rom:ROM,spi:SPI,
+  dare:sn?DARESN:(voice()?DAREV:DARE),taboo:TABOO,wave:WAVE,who:WHO,lie:LIE}[t]};
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let deckMemo={k:"",d:[],chk:0};
+function deck(){
+  const k=S.code+":"+S.ep+":"+S.n; if(deckMemo.k===k) return deckMemo.d;
+  const rnd=rng(hash(S.code+":"+S.n));
+  const mix=n=>{const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  const P={};["know","dare","quiz","dil","teach","rom","spi","taboo","wave","who","lie"].forEach(t=>P[t]=mix(bk(t).length));
+  const A=rnd()<.5?"a":"b",B=other(A);
+  const T={k:"know",d:"dil",q:"quiz",x:"dare",t:"teach",r:"rom",s:"spi",c:"recall",b:"taboo",w:"wave",o:"who",l:"lie"};
+  const d=theme().p.split(" ").map((s,i)=>{const c={t:T[s[0]],dec:i%2?B:A};
+    if(c.t==="recall") c.ref=Number(s.slice(1)); else if(s[1]) c.who=s[1]==="A"?A:B;
+    return c});
+  d.forEach(c=>{if(c.t==="recall") c.who=d[c.ref].who; else c.i=P[c.t].pop()});
+  deckMemo={k,d,chk:hash(JSON.stringify(d)+BUILD)%9000+1000}; return d;
+}
+const chk=()=>{deck();return deckMemo.chk};
+function genCode(){const pick=s=>s[Math.floor(Math.random()*s.length)];
+  return pick(ALPHA)+pick(ALPHA)+pick([...ALPHA].filter((_,i)=>i%THEMES.length===themeKind).join(""))+pick(callKind==="voice"?VOICE_END:VIDEO_END)}
+
+/* ---------- règles ---------- */
+/* comparaison souple : l'idée compte, pas l'orthographe */
+function norm(s){return String(s??"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ")
+  .replace(/\b(le|la|les|l|un|une|des|du|de|d|au|aux|mon|ma|mes|ton|ta|tes|son|sa|ses|et|en|a|je|j|il|elle|on)\b/g," ")
+  .split(" ").filter(Boolean).map(w=>w.length>3?w.replace(/(s|x)$/,""):w).join(" ")}
+function lev(a,b){const m=a.length,n=b.length;let d=[...Array(n+1).keys()];
+  for(let i=1;i<=m;i++){let p=d[0];d[0]=i;for(let j=1;j<=n;j++){const t=d[j];d[j]=Math.min(d[j]+1,d[j-1]+1,p+(a[i-1]===b[j-1]?0:1));p=t}}return d[n]}
+function close(a,b){if(a===b)return true;const L=Math.max(a.length,b.length);if(Math.min(a.length,b.length)<3)return false;return 1-lev(a,b)/L>=(L<=5?0.7:0.75)}
+function same(x,y){
+  if(x==="__t"||y==="__t") return false;
+  const a=norm(x),b=norm(y); if(!a||!b) return false;
+  if(close(a,b)) return true;
+  if(Math.min(a.length,b.length)>=4&&(a.includes(b)||b.includes(a))) return true;
+  const A=a.split(" ").filter(w=>w.length>=3),B=b.split(" ").filter(w=>w.length>=3); if(!A.length||!B.length) return false;
+  const hit=A.filter(w=>B.some(v=>close(w,v)||(w.length>=5&&v.length>=5&&w.slice(0,5)===v.slice(0,5)))).length;
+  return hit/Math.min(A.length,B.length)>=0.5;
+}
+const guesser=c=>["know","spi","recall","lie"].includes(c.t)?other(c.who):null;
+function needs(c,role){
+  if(["know","quiz","dil","rom","spi","teach"].includes(c.t)) return true;
+  if(c.t==="recall") return linked()&&role!==c.who;
+  if(!linked()) return false;
+  if(["wave","who","lie"].includes(c.t)) return true;
+  if(c.t==="taboo") return role!==c.who;
+  return false;
+}
+function inputsDone(r){const c=deck()[r];return (linked()?["a","b"]:[S.role]).every(x=>!needs(c,x)||has(r,x))}
+/* qui appuie sur le bouton, quand le jeu ne peut pas décider seul */
+function decider(c){
+  if(["know","spi","recall","lie","taboo"].includes(c.t)) return c.who;
+  if(c.t==="dare") return other(c.who);
+  if(c.t==="teach") return null;
+  return c.dec;
+}
+const pt=(role,n)=>role==="a"?[n,0]:[0,n];
+/* points [joueur a, joueur b] quand on décide à la main */
+function outcome(c,yes){
+  const g=guesser(c);
+  if(g) return pt(g,yes?1:-1);
+  if(c.t==="dare") return pt(c.who,yes?1:-1);
+  if(c.t==="rom") return yes?[1,1]:[0,0];
+  return yes?[1,1]:[-1,-1];
+}
+/* le jeu calcule seul le point dès que les réponses sont là */
+function autoVerdict(r){
+  const c=deck()[r],L=linked(),g=guesser(c);
+  if(c.t==="recall"){const t=mv(c.ref,c.who),l=mv(r,g);
+    if(L&&l&&l.v!=null&&t&&t.v&&(same(l.v,t.v.m)||same(l.v,t.v.w))) return pt(g,1); return null}
+  if(c.t==="taboo"){const l=mv(r,other(c.who)); if(L&&l&&l.v!=null) return same(l.v,TABOO[c.i][0])?[1,1]:[-1,-1]; return null}
+  if(!(has(r,"a")&&has(r,"b"))) return null;
+  const a=mv(r,"a").v,b=mv(r,"b").v;
+  if(c.t==="quiz"){const k=bk("quiz")[c.i].c;return [a===k?1:-1,b===k?1:-1]}
+  if(c.t==="dil"||c.t==="who") return a===b&&a!==-1&&a!=="__t"?[1,1]:[-1,-1];
+  if(c.t==="wave") return same(a,b)?[1,1]:[-1,-1];
+  if(c.t==="rom") return [1,1];
+  /* même idée : point direct ; sinon c'est la personne concernée qui tranche */
+  if(c.t==="know"||c.t==="spi") return same(a,b)?pt(g,1):null;
+  if(c.t==="lie") return pt(g,a===b?1:-1);
+  return null;
+}
+function verdict(r){
+  const c=deck()[r]; if(!c) return null;
+  if(c.t==="teach") return inputsDone(r)?[0,0]:null;
+  const v=autoVerdict(r); if(v) return v;
+  const d=decider(c),dm=d&&mv(r,d); if(dm&&dm.j) return dm.j;
+  const mine=mv(r,S.role); if(mine&&mine.j) return mine.j;
+  return null;
+}
+function phase(r){
+  const c=deck()[r];
+  if(needs(c,S.role)&&!has(r,S.role)) return "input";
+  if(verdict(r)) return "done";
+  if(!inputsDone(r)) return "wait";
+  return (!linked()||decider(c)===S.role)?"judge":"watch";
+}
+/* dernière carte où l'on peut creuser l'écart : elle vaut triple */
+function finalIdx(){const d=deck();for(let i=d.length-1;i>=0;i--) if(["know","recall","lie","dare","quiz"].includes(d[i].t)) return i;return -1}
+/* quitte ou double : 2 fois par partie, sur les cartes où l'on répond seul */
+const DBL_MAX=2;
+const canDbl=(c,role)=>linked()&&(c.t==="quiz"||guesser(c)===role);
+const dblUsed=role=>deck().reduce((n,_,r)=>n+((mv(r,role)||{}).d?1:0),0);
+function mult(r,role){let m=1;const x=mv(r,role);if(x&&x.d)m*=2;if(r===finalIdx())m*=3;return m}
+function pts(r){const v=verdict(r);return v?[v[0]*mult(r,"a"),v[1]*mult(r,"b")]:null}
+function scores(){const s=[0,0];deck().forEach((_,r)=>{const v=pts(r);if(v){s[0]+=v[0];s[1]+=v[1]}});return s}
+const mine2=s=>S.role==="a"?[s[0],s[1]]:[s[1],s[0]];
+
+/* ---------- actions ---------- */
+function setMove(r,patch){
+  const c=deck()[r];
+  if(patch.v!==undefined&&draft.dbl&&c&&canDbl(c,S.role)&&dblUsed(S.role)<DBL_MAX) patch={...patch,d:1};
+  if(patch.v!==undefined) delete draft.dbl;
+  S.moves["r"+r]={...(S.moves["r"+r]||{}),...patch};persist();render()}
+function next(){if(S.round>=deck().length) return;S.round++;draft={};chrono={k:"",t:0};clearInterval(tick);persist();render(true)}
+function newGame(){S.hist=[...S.hist,scores()].slice(-30);S.n++;S.round=0;S.moves={};S.rem={};draft={};persist();render(true)}
+function resetAll(){S.ep++;S.n=1;S.round=0;S.moves={};S.rem={};S.hist=[];draft={};askReset=false;clearInterval(tick);persist();render(true)}
+function quit(){askReset=false;disconnect();draft={};S=fresh();mismatch=false;try{localStorage.setItem("ldy2",JSON.stringify(S))}catch(e){} render(true)}
+function create(){
+  const name=(draft["in-name"]||"").trim().slice(0,24),mate=(draft["in-mate"]||"").trim().slice(0,24);
+  S={...fresh(),code:genCode(),role:"a",names:{a:name,b:mate},screen:"lobby"};draft={};connect();persist();render(true);
+}
+function join(){
+  const code=(draft["in-code"]||"").toUpperCase().replace(/[^A-Z]/g,"").slice(0,4);
+  const name=(draft["in-name"]||"").trim().slice(0,24),mate=(draft["in-mate"]||"").trim().slice(0,24);
+  if(code.length!==4){toast("Le code fait 4 lettres.");return}
+  S={...fresh(),code,role:"b",names:{a:mate,b:name},screen:"lobby"};draft={};connect();persist();render(true);
+}
+
+/* ---------- lien entre les deux téléphones (quand la page peut l'établir) ---------- */
+async function connect(){
+  disconnect();
+  if(!roomNS||!S.code) return;
+  const code=S.code; let c=null;
+  try{c=await roomNS.join("ldy-"+code.toLowerCase())}catch(e){c=roomNS}
+  if(S.code!==code){if(c&&c!==roomNS&&c.leave){try{c.leave().catch(()=>{})}catch(e){}}return}
+  chan=c;
+  try{offPeers=chan.onPeers(ch=>seePeers(ch.peers),()=>{chan=null;offPeers=null;partner=null;render()})}catch(e){chan=null;return}
+  pushPresence();
+}
+function disconnect(){
+  try{offPeers&&offPeers()}catch(e){} offPeers=null;
+  if(chan){try{(chan!==roomNS&&chan.leave?chan.leave():chan.presence({code:null})).catch(()=>{})}catch(e){}}
+  chan=null;partner=null;
+}
+function pushPresence(){
+  if(!chan||!S.code) return;
+  const m={};Object.keys(S.moves).forEach(k=>{m[k]=S.moves[k]});
+  const p={code:S.code,role:S.role,name:S.names[S.role]||"",ep:S.ep,n:S.n,round:S.round,go:S.go,chk:chk(),hist:S.hist.slice(-12),m};
+  /* la présence est limitée en taille : on retire d'abord les réponses des cartes les plus anciennes */
+  const keys=Object.keys(m).sort((a,b)=>Number(a.slice(1))-Number(b.slice(1)));
+  while(keys.length&&new TextEncoder().encode(JSON.stringify(p)).length>60000){const k=keys.shift();p.m[k]={j:m[k].j??null}}
+  try{chan.presence(p).catch(()=>{})}catch(e){}
+}
+function cleanMove(x){
+  if(!x||typeof x!=="object") return null; const o={};
+  if(typeof x.v==="string") o.v=x.v.slice(0,240);
+  else if(typeof x.v==="number"&&isFinite(x.v)) o.v=x.v;
+  else if(x.v&&typeof x.v==="object"&&typeof x.v.w==="string"&&typeof x.v.m==="string") o.v={w:x.v.w.slice(0,80),m:x.v.m.slice(0,240)};
+  if(x.d===1) o.d=1;
+  if(Array.isArray(x.j)&&x.j.length===2&&x.j.every(n=>n===1||n===0||n===-1)) o.j=[x.j[0],x.j[1]];
+  return o;
+}
+function seePeers(peers){
+  let best=null;
+  for(const x of peers||[]){
+    if(x.sameTab) continue; const pr=x.presence||{};
+    if(pr.code===S.code&&(pr.role==="a"||pr.role==="b")&&pr.role!==S.role&&(!best||x.updatedAt>best.updatedAt)) best=x;
+  }
+  const was=!!partner; partner=best?best.presence:null;
+  const changed=partner?absorb(partner):false;
+  if(changed) persist();
+  if(changed||was!==!!partner) render();
+}
+function absorb(pr){
+  let ch=false; const o=other(S.role);
+  const nm=typeof pr.name==="string"?pr.name.trim().slice(0,24):"";
+  if(nm&&S.names[o]!==nm){S.names[o]=nm;ch=true}
+  const pe=pr.ep|0,pN=pr.n|0,pR=pr.round|0;
+  const ahead=pe>S.ep||(pe===S.ep&&(pN>S.n||(pN===S.n&&pR>S.round)));
+  if(ahead){
+    if(pe!==S.ep||pN!==S.n){S.moves={};S.rem={};draft={};
+      S.hist=Array.isArray(pr.hist)?pr.hist.filter(h=>Array.isArray(h)&&h.length===2&&h.every(n=>typeof n==="number")).slice(-30):[]}
+    S.ep=pe;S.n=Math.max(1,pN);S.round=Math.max(0,pR);ch=true;
+  }
+  if(pe===S.ep&&pN===S.n){
+    if(pr.go&&!S.go){S.go=true;ch=true}
+    if(S.go&&S.screen==="lobby"){S.screen="game";ch=true}
+    mismatch=!!pr.chk&&pr.chk!==chk();
+    const m=pr.m&&typeof pr.m==="object"?pr.m:{};
+    Object.keys(m).forEach(k=>{
+      if(!/^r\d{1,2}$/.test(k)) return; const inc=cleanMove(m[k]); if(!inc) return;
+      const cur=S.rem[k]||{}, nxt={v:inc.v!==undefined?inc.v:cur.v,j:inc.j!==undefined?inc.j:cur.j,d:inc.d||cur.d};
+      if(JSON.stringify(nxt)!==JSON.stringify({v:cur.v,j:cur.j,d:cur.d})){S.rem[k]=nxt;ch=true}
+    });
+  }
+  return ch;
+}
+
+/* ---------- affichage ---------- */
+function ans(label,text,ok){return `<div class="ans${ok?" ok":""}"><small>${esc(label)}</small>${esc(text)}</div>`}
+function yesno(q,yes,no){return `<p class="hint">${esc(q)}</p><div class="row"><button data-act="judge" data-v="1">${esc(yes)}</button><button class="ghost" data-act="judge" data-v="0">${esc(no)}</button></div>`}
+const ptFor=role=>role===S.role?"point pour toi":"point pour "+nameOf(role);
+const ptTxt=(role,n)=>(n>0?"+"+n:"−"+(-n))+" pour "+(role===S.role?"toi":nameOf(role));
+function resultText(r){
+  const v=pts(r),[m,t]=mine2(v),me=S.role,you=other(me);
+  if(m===t&&m!==0) return (m>0?"+"+m:"−"+(-m))+" chacun";
+  const parts=[];if(m)parts.push(ptTxt(me,m));if(t)parts.push(ptTxt(you,t));
+  return parts.length?parts.join(" · "):"Aucun point";
+}
+function dblBtn(c){
+  if(!canDbl(c,S.role)) return "";
+  const left=DBL_MAX-dblUsed(S.role); if(left<=0) return `<p class="hint">Plus de quitte ou double pour cette partie.</p>`;
+  return `<button class="opt${draft.dbl?" on":""}" data-act="dbl" aria-pressed="${!!draft.dbl}">Quitte ou double : bonne réponse ×2, mauvaise ×2 (encore ${left})</button>`;
+}
+const dblTag=(r,role)=>(mv(r,role)||{}).d?" · quitte ou double":"";
+/* chrono : la réponse part toute seule à la fin */
+const CHRONO={dil:20,wave:20,who:20,taboo:45};
+let chrono={k:"",t:0};
+function chronoLeft(){const c=deck()[S.round];return Math.max(0,Math.ceil(CHRONO[c.t]-(Date.now()-chrono.t)/1000))}
+function chronoBox(c,r){
+  if(!CHRONO[c.t]) return "";
+  const k=S.code+":"+S.n+":"+r; if(chrono.k!==k) chrono={k,t:Date.now()};
+  return `<div class="row timer"><span id="ch">${chronoLeft()} s</span></div>`;
+}
+setInterval(()=>{
+  if(S.screen!=="game"||S.round>=deck().length) return;
+  const r=S.round,c=deck()[r]; if(!CHRONO[c.t]||phase(r)!=="input") return;
+  const el=$("ch"); if(!el) return; const left=chronoLeft(); el.textContent=left>0?left+" s":"Temps écoulé";
+  if(left<=0){
+    if(c.t==="dil") setMove(r,{v:-1});
+    else if(c.t==="taboo"){const t=(draft["in-text"]||"").trim();delete draft["in-text"];setMove(r,{v:t||"__t"})}
+    else setMove(r,{v:"__t"});
+    toast("Temps écoulé !");
+  }
+},250);
+const shownV=v=>v==="__t"||v===-1?"Pas de réponse à temps":v;
+function viewHome(){
+  const day=Math.floor(Date.now()/864e5), dq=KNOW[day%KNOW.length][0];
+  return `<div class="letter"><div class="sheet">
+    <div class="kicker">Jeu à deux, à distance</div>
+    <h2 class="q plain">16 cartes, deux compteurs, un appel.</h2>
+    <p class="hint">Chacun son tour, puis des cartes à jouer ensemble. À la fin, on compte les points.</p>
+    <div class="field"><label for="in-name">Ton prénom</label><input type="text" id="in-name" maxlength="24" autocomplete="given-name" placeholder="Prénom"></div>
+    <div class="field"><label for="in-mate">Le prénom de ta moitié</label><input type="text" id="in-mate" maxlength="24" autocomplete="off" placeholder="Prénom"></div>
+    <div class="field"><label id="kind-l">Votre appel</label><div class="row" role="group" aria-labelledby="kind-l">
+      <button class="opt${callKind==="video"?" on":""}" data-act="kind" data-v="video" aria-pressed="${callKind==="video"}">Appel vidéo</button>
+      <button class="opt${callKind==="voice"?" on":""}" data-act="kind" data-v="voice" aria-pressed="${callKind==="voice"}">Appel vocal</button></div></div>
+    <div class="field"><label id="theme-l">Le thème de la partie</label><div class="row" role="group" aria-labelledby="theme-l">
+      ${THEMES.map((t,i)=>`<button class="opt th${themeKind===i?" on":""}" data-act="theme" data-v="${i}" aria-pressed="${themeKind===i}">${t.name}<small>${t.hint}</small></button>`).join("")}</div></div>
+    <button data-act="create">Créer une partie</button>
+    <div class="field"><label for="in-code">Ou rejoins la partie de ta moitié</label>
+      <div class="row"><input type="text" id="in-code" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="Code à 4 lettres"><button class="ghost" data-act="join">Rejoindre</button></div></div>
+  </div></div>
+  <div class="stack"><div class="ans"><small>Question du jour à lui envoyer</small><span id="dq">${esc(dq)}</span></div>
+  <button class="ghost" data-act="copy">Copier la question</button></div>`;
+}
+function viewLobby(){
+  return `<div class="letter"><div class="sheet">
+    <div class="kicker">${S.role==="a"?"Ta partie est prête":"Tu as rejoint la partie"}</div>
+    <div class="code">${esc(S.code)}</div>
+    <p class="hint" style="text-align:center">Thème ${esc(theme().name)} · ${voice()?"appel vocal":"appel vidéo"} · vérification ${chk()}</p>
+    ${linked()?`<p class="result win">${esc(pn())} est là. Vos téléphones sont reliés.</p>
+      <p class="hint">Les réponses de l'un s'afficheront chez l'autre, et les points se mettent à jour des deux côtés.</p>`
+    :`<ol class="steps"><li>${S.role==="a"?"Envoie ce code à ta moitié. Une seule personne crée la partie, l'autre la rejoint.":"Vous devez voir le même numéro de vérification."}</li>
+      <li>Appelez-vous${voice()?", haut-parleur activé":" en vidéo"}, et gardez cette page ouverte.</li>
+      <li>Si vos téléphones se relient, ce sera écrit ici. Sinon, appuyez sur Commencer en même temps et dites vos réponses à voix haute.</li></ol>`}
+    <button data-act="start">Commencer</button>
+    <button class="link" data-act="quit">Annuler</button>
+  </div></div>`;
+}
+function viewRound(){
+  const r=S.round,c=deck()[r],me=S.role,you=other(me),mine=mv(r,me),theirs=mv(r,you),L=linked(),ph=phase(r),v=verdict(r);
+  const iAm=c.who===me, dec=decider(c), shown=ph==="judge"||ph==="watch"||ph==="done";
+  let kicker=LBL[c.t],q="",body="";
+  const whoDecides=()=>ph==="judge"?(dec===me||!dec?`<p class="hint"><strong>C'est toi qui attribues les points.</strong></p>`:`<p class="hint"><strong>${esc(Name(dec))} décide.</strong> Appuie sur ce qui est annoncé.</p>`):"";
+  const watch=t=>ph==="watch"?`<p class="hint"><strong>${esc(Name(dec))} attribue les points.</strong> ${esc(t||"")}</p>`:"";
+
+  if(c.t==="know"||c.t==="spi"){
+    kicker+=" · question pour "+nameOf(c.who); q=(c.t==="spi"?SPI:bk("know"))[c.i][iAm?0:1];
+    if(ph==="input") body=`<div class="field"><label for="in-text">${iAm?"Ta vraie réponse":"Ce que tu penses que "+esc(pm())+" va répondre"}</label><textarea id="in-text" maxlength="100"></textarea></div>${iAm?"":dblBtn(c)}<button data-act="text">Valider</button>`;
+    else if(ph==="wait") body=ans(iAm?"Ta réponse":"Ta supposition",mine.v)+`<p class="hint">${esc(pn())} écrit encore.</p>`;
+    else{
+      body=ans(iAm?"Ta réponse":"Ta supposition",mine.v)+(theirs&&theirs.v!=null?ans(iAm?"Supposition "+de(pm()):"Réponse "+de(pm()),theirs.v):`<p class="hint">Dites vos réponses à voix haute.</p>`);
+      if(ph==="judge"&&L) body+=yesno("Les mots sont différents. Est-ce la même idée que ta réponse ?","Oui, +1 pour "+nameOf(other(c.who)),"Non, −1 pour "+nameOf(other(c.who)));
+      else if(ph==="judge") body+=whoDecides()+yesno(iAm?"Même idée que toi ? L'orthographe ne compte pas.":"Même idée ?","Oui, +1 pour "+(iAm?nameOf(other(c.who)):"toi"),"Non, −1 pour "+(iAm?nameOf(other(c.who)):"toi"));
+      if(ph==="watch") body+=`<p class="hint"><strong>${esc(pn())} vérifie si c'est la même idée.</strong></p>`;
+    }
+  }
+  if(c.t==="dare"){
+    kicker+=" · pour "+nameOf(c.who); q=bk("dare")[c.i];
+    if(ph==="judge") body=whoDecides()+yesno("Défi réussi ?","Réussi, +1 pour "+nameOf(c.who),"Raté, −1 pour "+nameOf(c.who));
+    body+=watch("À toi de jouer.");
+  }
+  if(c.t==="quiz"||c.t==="dil"){
+    const item=bk(c.t)[c.i]; q=item.q;
+    kicker+=c.t==="quiz"?" · bonne réponse +1, mauvaise −1":" · pareil : +1 chacun, différent : −1 chacun";
+    if(ph==="input") body=(c.t==="dil"?chronoBox(c,r):"")+(c.t==="quiz"?dblBtn(c):"")+`<div class="stack">${item.o.map((o,i)=>`<button class="opt" data-act="pick" data-v="${i}">${esc(o)}</button>`).join("")}</div>`;
+    else if(ph==="wait") body=ans("Ton choix"+dblTag(r,me),item.o[mine.v]??"Pas de réponse à temps")+`<p class="hint">${esc(pn())} choisit encore.</p>`;
+    else{
+      body=ans("Ton choix"+dblTag(r,me),item.o[mine.v]??"Pas de réponse à temps",c.t==="quiz"&&mine.v===item.c);
+      if(theirs&&theirs.v!=null) body+=ans("Choix "+de(pm())+dblTag(r,you),item.o[theirs.v]??"Pas de réponse à temps",c.t==="quiz"&&theirs.v===item.c);
+      if(c.t==="quiz") body+=ans("Bonne réponse",item.o[item.c],true)+`<p class="hint">${esc(item.x)}</p>`;
+      if(ph==="judge"&&c.t==="quiz") body+=`<p class="hint">Annoncez vos réponses. Qui avait bon ?</p><div class="row">
+        <button class="ghost" data-act="award" data-v="1,1">Les deux</button><button class="ghost" data-act="award" data-v="${S.role==="a"?"1,-1":"-1,1"}">Seulement toi</button>
+        <button class="ghost" data-act="award" data-v="${S.role==="a"?"-1,1":"1,-1"}">Seulement ${esc(pm())}</button><button class="ghost" data-act="award" data-v="-1,-1">Personne</button></div>`;
+      if(ph==="judge"&&c.t==="dil") body+=yesno("Annoncez vos choix. Vous avez choisi pareil ?","Oui, +1 chacun","Non, −1 chacun");
+      if(ph==="done"&&c.t==="dil"&&v[0]<0) body+=`<p class="hint">Pas le même choix : racontez-vous pourquoi.</p>`;
+    }
+  }
+  if(c.t==="rom"){
+    kicker+=" · répondez tous les deux : +1 chacun"; q=ROM[c.i];
+    if(ph==="input") body=`<div class="field"><label for="in-text">Ta réponse, rien que pour ${esc(pm())}</label><textarea id="in-text" maxlength="100"></textarea></div><button data-act="text">Valider</button>`;
+    else if(ph==="wait") body=ans("Ta réponse",mine.v)+`<p class="hint">${esc(pn())} écrit encore.</p>`;
+    else{
+      body=ans("Ta réponse",mine.v)+(theirs&&theirs.v!=null?ans("Réponse "+de(pm()),theirs.v):`<p class="hint">Lisez-vous vos réponses, chacun son tour.</p>`);
+      if(ph==="judge") body+=whoDecides()+yesno("Vous avez tous les deux joué le jeu ?","Oui, +1 chacun","Non, aucun point");
+      body+=watch();
+    }
+  }
+  if(c.t==="teach"){
+    const t=mv(r,c.who); kicker+=" · pas de point tout de suite";
+    if(iAm){
+      q=bk("teach")[c.i];
+      if(ph==="input") body=`<div class="field"><label for="in-w">Le mot ou l'expression</label><input type="text" id="in-w" maxlength="40"></div>
+        <div class="field"><label for="in-m">Ce que ça veut dire</label><textarea id="in-m" maxlength="100"></textarea></div><button data-act="teach">Valider</button>`;
+      else body=ans(mine.v.w,mine.v.m)+(ph==="wait"?`<p class="hint">Explique-lui à voix haute. ${esc(pn())} confirme quand c'est retenu.</p>`:"");
+    }else{
+      q=pn()+" t'apprend quelque chose. Retiens bien, la question reviendra avec un point en jeu.";
+      if(ph==="input"){
+        if(L&&!(t&&t.v)) body=`<p class="hint">${esc(pn())} écrit…</p>`;
+        else body=(t&&t.v?ans(t.v.w,t.v.m):`<p class="hint">Écoute son explication pendant l'appel.</p>`)+`<button data-act="ack">C'est retenu</button>`;
+      }else body=(t&&t.v?ans(t.v.w,t.v.m):"");
+    }
+  }
+  if(c.t==="recall"){
+    const t=mv(c.ref,c.who),w=t&&t.v&&t.v.w?t.v.w:"",lm=mv(r,other(c.who));
+    if(iAm){
+      q=w?`Demande-lui ce que veut dire « ${w} ».`:"Demande-lui le mot que tu lui as appris tout à l'heure.";
+      if(ph==="wait") body=`<p class="hint">${esc(pn())} répond.</p>`;
+      else{body=(lm&&lm.v!=null?ans("Réponse "+de(pm()),lm.v):"")+(t&&t.v?ans("Ta définition",t.v.m,true):"");
+        if(ph==="judge") body+=whoDecides()+yesno("Bonne réponse ? L'idée suffit.","Oui, +1 pour "+nameOf(other(c.who)),"Non, −1 pour "+nameOf(other(c.who)))}
+    }else{
+      q=L&&w?`Que veut dire « ${w} » ?`:pn()+" te redemande ce que tu as appris tout à l'heure. Réponds à voix haute.";
+      if(ph==="input") body=`<div class="field"><label for="in-text">Ta réponse</label><textarea id="in-text" maxlength="100"></textarea></div>${dblBtn(c)}<button data-act="text">Valider</button>`;
+      else{
+        if(mine&&mine.v!=null) body=ans("Ta réponse"+dblTag(r,me),mine.v)+(shown&&t&&t.v?ans("Sa définition",t.v.m,true):"");
+        if(ph==="judge") body+=whoDecides()+yesno("Tu t'en souvenais ?","Oui, +1 pour toi","Non, −1 pour toi");
+        body+=watch();
+      }
+    }
+  }
+  if(c.t==="taboo"){
+    const it=TABOO[c.i],gm=mv(r,other(c.who)); kicker+=" · trouvé : +1 chacun, raté : −1 chacun";
+    if(iAm){q="Fais deviner : "+it[0];body=`<div class="ans"><small>Mots interdits</small>${esc(it[1].join(" · "))}</div>`;
+      if(L&&ph==="wait") body+=`<p class="hint">${esc(pn())} a 45 secondes pour taper le mot.</p>`;
+      if(!L&&ph==="judge") body+=`<div class="row timer"><span id="tm" data-s="45">45 s</span><button class="ghost" data-act="timer">Lancer le chrono</button></div>`}
+    else{q=pn()+" te fait deviner un mot.";
+      if(ph==="input") body=`<p class="hint">Écoute ses indices et tape le mot. Certains mots lui sont interdits.</p>${chronoBox(c,r)}<div class="field"><label for="in-text">Le mot</label><input type="text" id="in-text" maxlength="40"></div><button data-act="text">Valider</button>`;
+      else if(!L) body=`<p class="hint">Propose des mots jusqu'à trouver. Certains mots lui sont interdits, alors ses indices seront bizarres.</p>`}
+    if(ph==="done"&&gm&&gm.v!=null) body+=ans("Réponse "+(iAm?de(pm()):"donnée"),shownV(gm.v))+ans("Le mot",it[0],true);
+    if(ph==="judge") body+=whoDecides()+yesno("Mot trouvé avant la fin du chrono ?","Oui, +1 chacun","Non, −1 chacun");
+    body+=watch();
+  }
+  if(c.t==="wave"||c.t==="who"){
+    kicker+=" · pareil : +1 chacun, différent : −1 chacun";
+    q=c.t==="wave"?WAVE[c.i]:"Lequel de vous deux "+WHO[c.i];
+    const lab=v=>c.t==="who"?(v==="__t"?"Pas de réponse à temps":v===me?"Toi":esc(Name(v))):shownV(v);
+    if(L){
+      if(ph==="input") body=chronoBox(c,r)+(c.t==="wave"?`<div class="field"><label for="in-text">Ton mot, en secret</label><input type="text" id="in-text" maxlength="40"></div><button data-act="text">Valider</button>`
+        :`<div class="row"><button class="opt" data-act="pickr" data-v="${me}">Moi</button><button class="opt" data-act="pickr" data-v="${you}">${esc(pn())}</button></div>`);
+      else if(ph==="wait") body=ans("Ta réponse",lab(mine.v))+`<p class="hint">${esc(pn())} réfléchit encore.</p>`;
+      else body=ans("Ta réponse",lab(mine.v))+(theirs&&theirs.v!=null?ans("Réponse "+de(pm()),lab(theirs.v)):"");
+    }else{
+      body=`<p class="hint">${c.t==="wave"?"Comptez « 1, 2, 3 » et dites votre mot en même temps.":"À trois, dites « moi » ou « toi » en même temps."}</p>`;
+      if(ph==="judge") body+=whoDecides()+yesno(c.t==="wave"?"Vous avez dit le même mot ?":"Vous désignez la même personne ?","Oui, +1 chacun","Non, −1 chacun");
+      body+=watch();
+    }
+  }
+  if(c.t==="lie"){
+    kicker+=" · trouvé : +1, raté : −1 pour "+(iAm?nameOf(other(c.who)):"toi");
+    q=iAm?"Raconte trois choses "+LIE[c.i]+", dont un mensonge. Numérote-les 1, 2, 3.":"Trois histoires, un mensonge. À toi de le trouver.";
+    const nums=`<div class="row">${[1,2,3].map(n=>`<button class="opt" data-act="pick" data-v="${n}">${n}</button>`).join("")}</div>`;
+    if(L){
+      if(ph==="input") body=iAm?`<p class="hint">En secret : quel numéro est le mensonge ?</p>${nums}`:`<p class="hint">Écoute ses trois histoires. Quel numéro est le mensonge ?</p>${dblBtn(c)}${nums}`;
+      else if(ph==="wait") body=ans(iAm?"Ton mensonge":"Ton choix","n°"+mine.v)+`<p class="hint">${iAm?"Raconte tes trois histoires. "+esc(pn())+" cherche le mensonge.":esc(pn())+" choisit encore."}</p>`;
+      else body=ans(iAm?"Ton mensonge":"Ton choix"+dblTag(r,me),"n°"+mine.v,iAm)+(theirs&&theirs.v!=null?ans(iAm?"Choix "+de(pm())+dblTag(r,you):"Le mensonge","n°"+theirs.v,!iAm):"");
+    }else{
+      if(ph==="judge") body=whoDecides()+yesno(iAm?pn()+" a trouvé le mensonge ?":"Tu as trouvé le mensonge ?","Oui, +1 pour "+(iAm?nameOf(other(c.who)):"toi"),"Non, −1 pour "+(iAm?nameOf(other(c.who)):"toi"));
+      body+=watch();
+    }
+  }
+  if(r===finalIdx()) kicker="Remontada · points ×3 · "+kicker;
+  if(ph==="done") body+=`<p class="result ${mine2(pts(r))[0]>0?"win":"lose"}">${esc(resultText(r))}</p>
+    <button data-act="next">${r+1<deck().length?"Carte suivante":"Voir le décompte"}</button>`;
+
+  const learner=c.t==="recall"&&!iAm;
+  const turn=["dare","teach","taboo","lie"].includes(c.t)?(iAm?"me":"them"):c.t==="recall"?(learner?"me":"them"):(c.t==="know"||c.t==="spi")?(iAm?"me":"them"):"both";
+  const sub={
+    know:iAm?`Écris ta vraie réponse. ${pn()} essaie de deviner.`:`C'est la question ${de(pm())}. Devine sa réponse.`,
+    dare:iAm?(voice()?"Fais le défi à voix haute.":"Fais le défi devant la caméra."):(voice()?"Écoute, puis dis si c'est réussi.":"Regarde, puis dis si c'est réussi."),
+    teach:iAm?"Explique-lui à voix haute.":"Écoute bien.",
+    recall:learner?"Réponds de mémoire.":"Pose-lui la question et écoute sa réponse.",
+    quiz:"Choisissez chacun de votre côté.",dil:"Choisissez en secret, avant la fin du chrono.",rom:"Écrivez chacun votre réponse.",spi:iAm?`Écris ta vraie réponse. ${pn()} essaie de deviner.`:`C'est la question ${de(pm())}. Devine sa réponse.`,
+    taboo:iAm?"Fais deviner le mot sans dire les mots interdits.":"Devine le mot le plus vite possible.",
+    wave:"Pensez au même mot sans vous concerter.",who:"Répondez sans réfléchir, avant la fin du chrono.",
+    lie:iAm?"Garde ton sérieux.":"Écoute bien et cherche le détail qui cloche."}[c.t];
+  const banner=`<div class="turn ${turn}"><strong>${turn==="me"?"À toi de jouer":turn==="them"?"Au tour "+esc(de(pm())):"Tous les deux en même temps"}</strong><span>${esc(sub)}</span></div>`;
+  return banner+`<div class="letter"><div class="sheet">
+    <div class="stamp" aria-label="Carte ${r+1} sur ${deck().length}"><small>CARTE</small><span>${String(r+1).padStart(2,"0")}</span></div>
+    <div class="kicker">${esc(kicker)}</div><h2 class="q">${esc(q)}</h2>${body}
+  </div></div>`;
+}
+function gageBox(m,t){
+  if(m===t) return "";
+  const n=deck().length,win=m>t?S.role:other(S.role),g=mv(n,win),rnd=rng(hash(S.code+":g:"+S.n));
+  const pick=[0,1,2].map(()=>GAGES[Math.floor(rnd()*GAGES.length)]).filter((x,i,a)=>a.indexOf(x)===i);
+  if(!linked()) return ans("Gage pour "+(m<t?"toi":nameOf(other(S.role))),pick[0]);
+  if(g&&g.v) return ans(m<t?"Ton gage, choisi par "+nameOf(win):"Le gage que tu as choisi",g.v,true);
+  if(m<t) return `<p class="hint">${esc(pn())} choisit ton gage…</p>`;
+  return `<div class="field"><label>Choisis le gage ${esc(de(pm()))}</label><div class="stack">${pick.map(x=>`<button class="opt" data-act="gage" data-v="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>
+    <div class="field"><label for="in-gage">Ou invente le tien</label><div class="row"><input type="text" id="in-gage" maxlength="120"><button class="ghost" data-act="gage">Envoyer</button></div></div>`;
+}
+function viewEnd(){
+  const [m,t]=mine2(scores()),me=S.role;
+  const all=[...S.hist,scores()].map(mine2), wins=all.filter(x=>x[0]>x[1]).length, losses=all.filter(x=>x[0]<x[1]).length;
+  const msg=m>t?"Tu gagnes cette partie.":m<t?pn()+" gagne cette partie.":"Égalité parfaite.";
+  let j="";
+  deck().forEach((c,r)=>{
+    const a=mv(r,me),b=mv(r,other(me));
+    if((c.t==="know"||c.t==="rom"||c.t==="spi")&&a&&a.v!=null) j+=`<div><p>${esc(c.t==="rom"?ROM[c.i]:c.t==="spi"?SPI[c.i][c.who===me?0:1]:bk("know")[c.i][c.who===me?0:1])}</p><p>Toi : ${esc(a.v)}${b&&b.v!=null?" · "+esc(pn())+" : "+esc(b.v):""}</p></div>`;
+    if(c.t==="teach"){const x=mv(r,c.who);if(x&&x.v&&x.v.w) j+=`<div><p>Mot appris : ${esc(x.v.w)}</p><p>${esc(x.v.m)}</p></div>`}
+  });
+  return `<div class="letter"><div class="sheet">
+    <div class="kicker">Décompte · partie n°${S.n} · thème ${esc(theme().name)}</div>
+    <div class="row tally"><div><small>Toi</small><span class="big">${m}</span></div><div><small>${esc(pn())}</small><span class="big">${t}</span></div></div>
+    <h2 class="q plain">${esc(msg)}</h2>
+    <p class="hint">Parties gagnées : toi ${wins} · ${esc(pm())} ${losses}${all.length-wins-losses?` · ${all.length-wins-losses} égalité${all.length-wins-losses>1?"s":""}`:""}</p>
+    ${linked()?"":`<p class="hint">Comparez vos deux écrans : le décompte doit être le même. Appuyez tous les deux sur Nouvelle partie pour garder le même paquet.</p>`}
+    ${gageBox(m,t)}
+    <button data-act="again">Nouvelle partie</button>
+  </div></div>
+  ${j?`<div class="journal"><h3>Votre journal de la partie</h3>${j}</div>`:""}`;
+}
+function render(pop){
+  const inGame=S.screen==="game", ended=inGame&&S.round>=deck().length;
+  const note=mismatch&&S.screen!=="home"?`<p class="notice">Vos deux téléphones n'ont pas le même paquet de cartes. Rechargez la page tous les deux, puis recréez une partie.</p>`:"";
+  const html=note+(S.screen==="home"?viewHome():S.screen==="lobby"?viewLobby():ended?viewEnd():viewRound());
+  if(html!==lastStage){
+    lastStage=html; const st=$("stage"); st.innerHTML=html;
+    st.style.display="flex";st.style.flexDirection="column";st.style.gap="18px";
+    Object.keys(draft).forEach(id=>{const el=$(id);if(el)el.value=draft[id]});
+    if(pop){const el=st.querySelector(".letter");if(el){el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop")}}
+  }
+  let p=0,label="Deux points, un fil. Chaque point marqué vous rapproche.";
+  if(inGame){const [m,t]=mine2(scores());p=Math.max(0,Math.min(1,(m+t)/24));label=`<strong>Toi ${m}</strong> · <strong>${esc(pn())} ${t}</strong>`}
+  const wire=`<div class="wire${p>=1?" met":""}" style="--p:${p}"><i></i><b></b><i></i></div><div class="wirelabel">${label}</div>`;
+  if(wire!==lastWire){
+    const box=$("wirebox"),w=box.querySelector(".wire");
+    if(w){w.style.setProperty("--p",p);w.classList.toggle("met",p>=1);box.querySelector(".wirelabel").innerHTML=label}else box.innerHTML=wire;
+    lastWire=wire;
+  }
+  $("meta").textContent=S.screen==="home"?"":`${theme().name} · ${S.code} · n°${S.n}`;
+  let status="";
+  if(inGame){
+    const where=ended?"":` · carte ${S.round+1} sur ${deck().length}`;
+    status=linked()?`Relié avec ${pm()}${where}`:`Téléphones non reliés : dites vos réponses à voix haute${where} · vérification ${chk()}`;
+  }
+  $("status").textContent=status;
+  const tools=!inGame?"":askReset
+    ?`<p>Tout effacer (réponses, points, parties gagnées) et revenir à la carte 1 ?</p><div class="row"><button data-act="reset-yes">Oui, tout effacer</button><button class="ghost" data-act="reset-no">Annuler</button></div>`
+    :`<button class="link" data-act="reset">Recommencer à zéro</button><button class="link" data-act="quit">Quitter la partie</button>`;
+  if(tools!==lastTools){lastTools=tools;$("tools").innerHTML=tools}
+}
+
+/* ---------- interactions ---------- */
+document.addEventListener("input",e=>{if(e.target.id) draft[e.target.id]=e.target.value});
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]"); if(!b) return;
+  const act=b.dataset.act, r=S.round, c=S.screen==="game"?deck()[r]:null;
+  if(act==="create") create();
+  else if(act==="join") join();
+  else if(act==="kind"){callKind=b.dataset.v;render()}
+  else if(act==="theme"){themeKind=Number(b.dataset.v);render()}
+  else if(act==="start"){S.go=true;S.screen="game";persist();render(true)}
+  else if(act==="quit") quit();
+  else if(act==="reset"){askReset=true;render()}
+  else if(act==="reset-no"){askReset=false;render()}
+  else if(act==="reset-yes") resetAll();
+  else if(act==="again") newGame();
+  else if(act==="next") next();
+  else if(act==="dbl"){draft.dbl=!draft.dbl;render()}
+  else if(act==="gage"){const t=(b.dataset.v||draft["in-gage"]||"").trim();if(!t){toast("Écris un gage d'abord.");return}delete draft["in-gage"];
+    S.moves["r"+deck().length]={v:t.slice(0,200)};persist();render()}
+  else if(!c) return;
+  else if(act==="pick") setMove(r,{v:Number(b.dataset.v)});
+  else if(act==="pickr") setMove(r,{v:b.dataset.v});
+  else if(act==="ack") setMove(r,{v:"ok"});
+  else if(act==="judge") setMove(r,{j:outcome(c,b.dataset.v==="1")});
+  else if(act==="award") setMove(r,{j:b.dataset.v.split(",").map(Number)});
+  else if(act==="text"){const t=(draft["in-text"]||"").trim();if(!t){toast("Écris ta réponse d'abord.");return}delete draft["in-text"];setMove(r,{v:t})}
+  else if(act==="teach"){const w=(draft["in-w"]||"").trim(),m=(draft["in-m"]||"").trim();
+    if(!w||!m){toast("Remplis le mot et sa signification.");return}delete draft["in-w"];delete draft["in-m"];setMove(r,{v:{w,m}})}
+  else if(act==="timer"){
+    const el=$("tm"); if(!el) return; clearInterval(tick); let left=Number(el.dataset.s); el.textContent=left+" s"; b.disabled=true;
+    tick=setInterval(()=>{const x=$("tm"); if(!x){clearInterval(tick);return} left--; x.textContent=left>0?left+" s":"Temps écoulé"; if(left<=0) clearInterval(tick)},1000);
+  }
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest('[data-act="copy"]'); if(!b) return; const t=$("dq").textContent;
+  Promise.resolve().then(()=>navigator.clipboard.writeText(t)).then(()=>toast("Question copiée."),()=>toast("Copie impossible ici. Sélectionne le texte à la main."));
+});
+
+/* ---------- synchronisation Firebase ---------- */
+const FB_CONFIG={
+  apiKey:"AIzaSyAvYdVSbqfRL4lxrGMv-l0T2o2kBNe9Hj4",
+  authDomain:"loin-des-yeux.firebaseapp.com",
+  databaseURL:"https://loin-des-yeux-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"loin-des-yeux",
+  storageBucket:"loin-des-yeux.firebasestorage.app",
+  messagingSenderId:"746468431776",
+  appId:"1:746468431776:web:1a64d53c3370c2b769f6c5"
+};
+function fbRoom(){
+  if(!window.firebase) return null;
+  const app=firebase.apps.length?firebase.app():firebase.initializeApp(FB_CONFIG);
+  const db=firebase.database(app);
+  let me=null;try{me=sessionStorage.getItem("ldy-id")}catch(e){}
+  if(!me){me=Math.random().toString(36).slice(2,10);try{sessionStorage.setItem("ldy-id",me)}catch(e){}}
+  return {join:async name=>{
+    const ref=db.ref("rooms/"+name),mine=ref.child(me);let h=null;
+    mine.onDisconnect().remove();
+    return {
+      presence:async p=>{if(!p||p.code===null){await mine.remove();return}
+        await mine.set({p:JSON.stringify(p),t:firebase.database.ServerValue.TIMESTAMP})},
+      onPeers:(cb,onClose)=>{
+        h=snap=>{const v=snap.val()||{};
+          cb({peers:Object.keys(v).map(k=>{let pr={};try{pr=JSON.parse(v[k].p)}catch(e){}return {presence:pr,updatedAt:v[k].t||0,sameTab:k===me}})})};
+        ref.on("value",h,()=>onClose&&onClose());
+        return ()=>ref.off("value",h)},
+      leave:async()=>{if(h)ref.off("value",h);try{mine.onDisconnect().cancel()}catch(e){}await mine.remove()}
+    }}};
+}
+
+/* ---------- pétales ---------- */
+(function(){const box=document.getElementById("petals");if(!box)return;
+  for(let i=0;i<16;i++){const e=document.createElement("i");const s=10+Math.random()*16;
+    if(i%4===0)e.className="h";
+    e.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s}px;--x:${(Math.random()*120-60).toFixed(0)}px;animation-duration:${(9+Math.random()*10).toFixed(1)}s;animation-delay:-${(Math.random()*18).toFixed(1)}s`;
+    box.appendChild(e)}})();
+
+/* ---------- démarrage ---------- */
+function start(saved){
+  try{const raw=saved&&saved.code!==undefined?saved:JSON.parse(localStorage.getItem("ldy2")||"null");if(raw&&typeof raw==="object")S={...fresh(),...raw}}catch(e){}
+  if(S.screen!=="home"&&!S.code) S=fresh();
+  render();
+  (async()=>{
+    try{roomNS=fbRoom()}catch(e){roomNS=null}
+    if(!roomNS){try{if(window.claude&&window.claude.use) roomNS=await window.claude.use("room")}catch(e){roomNS=null}}
+    if(roomNS&&S.code) connect();
+  })();
+}
+start({});
+</script>
+</body>
+</html>
