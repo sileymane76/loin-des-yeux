@@ -485,11 +485,399 @@ const TEACHSN=[
  "Apprends-lui une expression que tes parents répètent tout le temps.",
  "Apprends-lui un mot d'une langue du Sénégal qu'il ou elle ne parle pas."
 ];
+/* ---------- cartes en plus ---------- */
+KNOW.push(
+ ["Quel est ton petit-déjeuner idéal ?","Quel est le petit-déjeuner idéal de ta moitié ?"],
+ ["Quelle est ta saison préférée ?","Quelle est la saison préférée de ta moitié ?"],
+ ["Quel animal aimerais-tu avoir ?","Quel animal ta moitié aimerait avoir ?"],
+ ["Quel est ton dessert préféré ?","Quel est le dessert préféré de ta moitié ?"],
+ ["Quelle couleur portes-tu le plus souvent ?","Quelle couleur ta moitié porte le plus souvent ?"],
+ ["Quel est ton plus grand défaut, selon toi ?","Quel est le plus grand défaut de ta moitié, selon elle-même ?"],
+ ["Quelle est ta plus grande peur ?","Quelle est la plus grande peur de ta moitié ?"],
+ ["Quel métier te faisait rêver quand tu étais petit·e ?","Quel métier faisait rêver ta moitié quand elle était petite ?"],
+ ["Quelle appli ouvres-tu en premier le matin ?","Quelle appli ta moitié ouvre en premier le matin ?"],
+ ["Quel pays rêves-tu de visiter ?","Quel pays ta moitié rêve de visiter ?"],
+ ["Quel est ton fast-food préféré ?","Quel est le fast-food préféré de ta moitié ?"],
+ ["Quelle boisson commandes-tu au café ?","Quelle boisson ta moitié commande au café ?"],
+ ["Quel est ton jour préféré de la semaine ?","Quel est le jour préféré de la semaine de ta moitié ?"],
+ ["Combien d'heures dors-tu en moyenne ?","Combien d'heures ta moitié dort en moyenne ?"],
+ ["Quelle matière préférais-tu à l'école ?","Quelle matière ta moitié préférait à l'école ?"],
+ ["Quel est ton sport préféré à regarder ?","Quel est le sport préféré de ta moitié à regarder ?"],
+ ["Quel est le dernier film que tu as adoré ?","Quel est le dernier film que ta moitié a adoré ?"],
+ ["Quel est ton parfum de glace préféré ?","Quel est le parfum de glace préféré de ta moitié ?"],
+ ["Mer ou montagne ?","Mer ou montagne, pour ta moitié ?"],
+ ["Quel légume détestes-tu ?","Quel légume ta moitié déteste ?"],
+ ["Quelle est ta pointure ?","Quelle est la pointure de ta moitié ?"],
+ ["Quel est ton plus mauvais souvenir de vacances ?","Quel est le plus mauvais souvenir de vacances de ta moitié ?"],
+ ["Quel est le prénom de ton meilleur ami ou ta meilleure amie ?","Quel est le prénom du meilleur ami ou de la meilleure amie de ta moitié ?"],
+ ["Quel est ton plat de fête préféré ?","Quel est le plat de fête préféré de ta moitié ?"],
+ ["Quel super-pouvoir aimerais-tu avoir ?","Quel super-pouvoir ta moitié aimerait avoir ?"],
+ ["Quel est ton emoji le plus utilisé ?","Quel est l'emoji le plus utilisé par ta moitié ?"],
+ ["Quel artiste écoutes-tu le plus en ce moment ?","Quel artiste ta moitié écoute le plus en ce moment ?"],
+ ["Quelle est ta plus grosse dépense inutile ?","Quelle est la plus grosse dépense inutile de ta moitié ?"],
+ ["Qu'est-ce qui t'énerve le plus chez les autres ?","Qu'est-ce qui énerve le plus ta moitié chez les autres ?"],
+ ["Quel est ton surnom d'enfance ?","Quel est le surnom d'enfance de ta moitié ?"],
+ ["Thé ou café ?","Thé ou café, pour ta moitié ?"],
+ ["Quel est ton plat préféré cuisiné par ta mère ?","Quel est le plat préféré de ta moitié cuisiné par sa mère ?"],
+ ["Quelle est la chose que tu ne pourrais jamais manger ?","Quelle est la chose que ta moitié ne pourrait jamais manger ?"],
+ ["À quelle heure te couches-tu en semaine ?","À quelle heure ta moitié se couche en semaine ?"],
+ ["Quel est ton réseau social préféré ?","Quel est le réseau social préféré de ta moitié ?"],
+ ["Quel objet emporterais-tu sur une île déserte ?","Quel objet ta moitié emporterait sur une île déserte ?"],
+ ["Quelle est ta série préférée de tous les temps ?","Quelle est la série préférée de tous les temps de ta moitié ?"],
+ ["Quel est ton fruit préféré ?","Quel est le fruit préféré de ta moitié ?"],
+ ["Quelle tâche ménagère détestes-tu le plus ?","Quelle tâche ménagère ta moitié déteste le plus ?"],
+ ["Quel est ton jeu préféré, vidéo ou de société ?","Quel est le jeu préféré de ta moitié, vidéo ou de société ?"],
+ ["Quel prénom donnerais-tu à un futur enfant ?","Quel prénom ta moitié donnerait à un futur enfant ?"],
+ ["Quel est ton plus gros talent caché ?","Quel est le plus gros talent caché de ta moitié ?"],
+ ["Quelle ville aimerais-tu habiter plus tard ?","Quelle ville ta moitié aimerait habiter plus tard ?"],
+ ["Quel est le cadeau que tu as le plus aimé recevoir ?","Quel est le cadeau que ta moitié a le plus aimé recevoir ?"],
+ ["Sucré ou salé ?","Sucré ou salé, pour ta moitié ?"],
+ ["Qu'est-ce qui te fait pleurer de rire à coup sûr ?","Qu'est-ce qui fait pleurer de rire ta moitié à coup sûr ?"],
+ ["Quel est ton mot préféré ?","Quel est le mot préféré de ta moitié ?"],
+ ["Quelle est ta marque de vêtements préférée ?","Quelle est la marque de vêtements préférée de ta moitié ?"],
+ ["Quel est ton moyen de transport préféré ?","Quel est le moyen de transport préféré de ta moitié ?"],
+ ["Quel âge avais-tu à ton premier téléphone ?","Quel âge avait ta moitié à son premier téléphone ?"],
+ ["Quel est ton parfum ou ton déodorant actuel ?","Quel est le parfum ou le déodorant actuel de ta moitié ?"],
+ ["Quel est ton rêve le plus fou ?","Quel est le rêve le plus fou de ta moitié ?"],
+ ["Lève-tôt ou couche-tard ?","Lève-tôt ou couche-tard, ta moitié ?"],
+ ["Quelle épice ou quel condiment mets-tu partout ?","Quelle épice ou quel condiment ta moitié met partout ?"],
+ ["Quel est ton plus beau voyage ?","Quel est le plus beau voyage de ta moitié ?"],
+ ["Qui appelles-tu en premier quand tu as une bonne nouvelle ?","Qui ta moitié appelle en premier quand elle a une bonne nouvelle ?"],
+ ["Quelle est ta chanson de karaoké ?","Quelle est la chanson de karaoké de ta moitié ?"],
+ ["Quelle est la chose qui te stresse le plus en ce moment ?","Quelle est la chose qui stresse le plus ta moitié en ce moment ?"],
+ ["Quel cours ou quelle formation aimerais-tu suivre ?","Quel cours ou quelle formation ta moitié aimerait suivre ?"],
+ ["Quel est ton plat de rue préféré ?","Quel est le plat de rue préféré de ta moitié ?"]
+);
+SPI.push(
+ ["Quelle tenue de ta moitié te fait le plus d'effet ?","Quelle tenue de toi fait le plus d'effet à ta moitié ?"],
+ ["Quel est ton moment préféré pour un câlin : matin, après-midi ou soir ?","Quel est le moment préféré de ta moitié pour un câlin : matin, après-midi ou soir ?"],
+ ["Quelle partie de sa voix te fait craquer : son rire, son « allô » ou sa voix du matin ?","Quelle partie de ta voix fait craquer ta moitié : ton rire, ton « allô » ou ta voix du matin ?"],
+ ["Si tu pouvais te téléporter près de ta moitié ce soir, tu ferais quoi en premier ?","Si ta moitié pouvait se téléporter près de toi ce soir, elle ferait quoi en premier ?"],
+ ["Quel est le bisou que tu préfères : sur le front, la joue ou les lèvres ?","Quel est le bisou que ta moitié préfère : sur le front, la joue ou les lèvres ?"],
+ ["Quel vêtement de ta moitié aimerais-tu lui piquer pour dormir ?","Quel vêtement de toi ta moitié aimerait te piquer pour dormir ?"],
+ ["Quel endroit serait parfait pour un dîner aux chandelles à deux ?","Quel endroit serait parfait pour un dîner aux chandelles, selon ta moitié ?"],
+ ["Quel petit mot doux aimerais-tu recevoir avant de dormir ?","Quel petit mot doux ta moitié aimerait recevoir avant de dormir ?"],
+ ["Qu'est-ce qui te rend jaloux ou jalouse, juste un peu ?","Qu'est-ce qui rend ta moitié jalouse, juste un peu ?"],
+ ["Quel moment de votre histoire t'a fait battre le cœur le plus fort ?","Quel moment de votre histoire a fait battre le cœur de ta moitié le plus fort ?"],
+ ["Quelle photo de ta moitié regardes-tu le plus ?","Quelle photo de toi ta moitié regarde le plus ?"],
+ ["Massage des épaules ou massage des pieds ?","Massage des épaules ou massage des pieds, pour ta moitié ?"],
+ ["Quel compliment aimerais-tu entendre plus souvent ?","Quel compliment ta moitié aimerait entendre plus souvent ?"],
+ ["Quelle coiffure de ta moitié préfères-tu ?","Quelle coiffure de toi ta moitié préfère ?"],
+ ["Si vous aviez une chambre d'hôtel avec vue pour une nuit, ce serait où ?","Si vous aviez une chambre d'hôtel avec vue pour une nuit, ta moitié choisirait où ?"],
+ ["Quelle est la chose la plus romantique qu'on t'ait dite ?","Quelle est la chose la plus romantique qu'on ait dite à ta moitié ?"],
+ ["Préfères-tu être réveillé·e par un bisou ou par un petit-déjeuner au lit ?","Ta moitié préfère être réveillée par un bisou ou par un petit-déjeuner au lit ?"],
+ ["Quel détail de ta moitié remarques-tu en premier en vidéo ?","Quel détail de toi ta moitié remarque en premier en vidéo ?"],
+ ["Quelle est ta façon préférée de faire la paix après une dispute ?","Quelle est la façon préférée de ta moitié de faire la paix après une dispute ?"],
+ ["Quelle danse aimerais-tu apprendre avec ta moitié ?","Quelle danse ta moitié aimerait apprendre avec toi ?"],
+ ["Quel est le message vocal de ta moitié que tu as réécouté le plus ?","Quel est le message vocal de toi que ta moitié a réécouté le plus ?"],
+ ["Qu'est-ce qui te donne des papillons dans le ventre chez ta moitié ?","Qu'est-ce qui donne des papillons dans le ventre à ta moitié chez toi ?"],
+ ["Câlin debout dans la cuisine ou sous un plaid devant un film ?","Câlin debout dans la cuisine ou sous un plaid devant un film, pour ta moitié ?"],
+ ["Quel est ton souvenir le plus tendre d'un au revoir ?","Quel est le souvenir le plus tendre d'un au revoir pour ta moitié ?"],
+ ["Si tu devais décrire ses yeux en un mot, ce serait lequel ?","Si ta moitié devait décrire tes yeux en un mot, ce serait lequel ?"],
+ ["Qu'est-ce qui te plaît le plus dans sa façon de s'habiller ?","Qu'est-ce qui plaît le plus à ta moitié dans ta façon de t'habiller ?"],
+ ["Préfères-tu les longs bisous ou plein de petits bisous ?","Ta moitié préfère les longs bisous ou plein de petits bisous ?"],
+ ["Quel parfum aimerais-tu que ta moitié porte pour vos retrouvailles ?","Quel parfum ta moitié aimerait que tu portes pour vos retrouvailles ?"],
+ ["Quelle est la première chose que tu remarques quand ta moitié sourit ?","Quelle est la première chose que ta moitié remarque quand tu souris ?"],
+ ["Quel rendez-vous surprise aimerais-tu que ta moitié t'organise ?","Quel rendez-vous surprise ta moitié aimerait que tu lui organises ?"],
+ ["Main dans la main dans la rue : toujours, parfois ou jamais ?","Main dans la main dans la rue : toujours, parfois ou jamais, pour ta moitié ?"],
+ ["Qu'est-ce qui te fait rougir le plus vite ?","Qu'est-ce qui fait rougir ta moitié le plus vite ?"],
+ ["Quel est le plus beau cadeau que ta moitié pourrait t'offrir sans dépenser d'argent ?","Quel est le plus beau cadeau que tu pourrais offrir à ta moitié sans dépenser d'argent ?"],
+ ["Quel film romantique regarderais-tu blotti·e contre ta moitié ?","Quel film romantique ta moitié regarderait blottie contre toi ?"],
+ ["À quel moment de la journée as-tu le plus envie d'un câlin ?","À quel moment de la journée ta moitié a le plus envie d'un câlin ?"],
+ ["Quelle phrase de ta moitié te fait fondre ?","Quelle phrase de toi fait fondre ta moitié ?"],
+ ["Si vous aviez une chanson rien qu'à vous, ce serait laquelle ?","Si vous aviez une chanson rien qu'à vous, ta moitié choisirait laquelle ?"],
+ ["Quelle est la chose la plus mignonne que ta moitié fait quand elle est fatiguée ?","Quelle est la chose la plus mignonne que tu fais quand tu es fatigué·e, selon ta moitié ?"],
+ ["Quel endroit de vos retrouvailles rêves-tu : gare, aéroport ou devant la porte ?","Quel endroit de vos retrouvailles rêve ta moitié : gare, aéroport ou devant la porte ?"],
+ ["Quel geste de ta moitié te donne envie de la serrer fort ?","Quel geste de toi donne envie à ta moitié de te serrer fort ?"],
+ ["Quel surnom te fait craquer quand ta moitié le dit ?","Quel surnom fait craquer ta moitié quand tu le dis ?"],
+ ["Pique-nique au coucher du soleil ou restaurant chic ?","Pique-nique au coucher du soleil ou restaurant chic, pour ta moitié ?"],
+ ["Combien de temps pourrais-tu rester dans ses bras sans bouger ?","Combien de temps ta moitié pourrait rester dans tes bras sans bouger ?"],
+ ["Quel est ton plus beau souvenir d'un regard échangé ?","Quel est le plus beau souvenir d'un regard échangé pour ta moitié ?"],
+ ["Qu'est-ce qui te manque le plus le soir, quand vous êtes loin ?","Qu'est-ce qui manque le plus à ta moitié le soir, quand vous êtes loin ?"],
+ ["Quelle tenue mettrais-tu pour la séduire à nouveau ?","Quelle tenue ta moitié mettrait pour te séduire à nouveau ?"],
+ ["Quel est le moment où tu as eu le plus envie de l'embrasser en appel ?","Quel est le moment où ta moitié a eu le plus envie de t'embrasser en appel ?"],
+ ["Préfères-tu les déclarations à voix haute ou par écrit ?","Ta moitié préfère les déclarations à voix haute ou par écrit ?"],
+ ["Quel est ton fantasme de week-end en amoureux, version douce ?","Quel est le fantasme de week-end en amoureux de ta moitié, version douce ?"],
+ ["Quelle est la chose la plus folle que tu ferais par amour ?","Quelle est la chose la plus folle que ta moitié ferait par amour ?"]
+);
+ROM.push(
+ "Qu'est-ce que tu ressens quand tu vois son nom s'afficher sur ton téléphone ?",
+ "Quel est le meilleur conseil que ta moitié t'ait donné ?",
+ "Quelle promesse aimerais-tu lui faire ce soir ?",
+ "Quel moment de votre relation te rend le plus fier ou fière ?",
+ "Qu'est-ce qui a changé en toi depuis que vous êtes ensemble ?",
+ "Quel est votre fou rire le plus mémorable ?",
+ "Décris ta moitié en trois mots.",
+ "Quelle tradition aimerais-tu créer pour vos anniversaires ?",
+ "Qu'est-ce que tu aimerais lui dire mais que tu n'oses pas souvent ?",
+ "Quel voyage rêves-tu de faire à deux ?",
+ "Quelle est la plus grande qualité de votre couple ?",
+ "Qu'est-ce qui t'aide à tenir quand la distance est dure ?",
+ "Quel souvenir d'enfance aimerais-tu partager avec ta moitié ?",
+ "À quoi ressemblerait votre maison idéale ?",
+ "Quel est le plus beau message que ta moitié t'ait envoyé ?",
+ "Qu'est-ce que tu as envie de vivre pour la première fois avec ta moitié ?",
+ "Quelle habitude de ta moitié te fait sourire ?",
+ "Quel est ton moment préféré de vos appels ?",
+ "Quel défi aimerais-tu relever ensemble cette année ?",
+ "Qu'est-ce que tu remercierais ta moitié d'avoir fait pour toi ?",
+ "Quelle est la chose la plus courageuse que ta moitié ait faite ?",
+ "Si votre histoire était un film, quel serait son titre ?",
+ "Quel plat aimerais-tu cuisiner pour ta moitié ?",
+ "Qu'est-ce que tu admires dans sa famille ?",
+ "Quand t'es-tu senti·e le plus soutenu·e par ta moitié ?",
+ "Quel compliment de ta moitié n'as-tu jamais oublié ?",
+ "Quelle est ta plus grande envie pour votre avenir ?",
+ "Comment imagines-tu votre premier Noël ou votre première fête ensemble ?",
+ "Qu'est-ce qui te rend fier ou fière d'être avec ta moitié ?",
+ "Quel lieu de votre histoire aimerais-tu revisiter ?",
+ "Quelle chanson voudrais-tu pour votre première danse ?",
+ "Qu'est-ce qui te fait te sentir aimé·e au quotidien ?",
+ "Quelle surprise aimerais-tu lui préparer pour vos retrouvailles ?",
+ "Qu'est-ce que la distance vous a permis de mieux construire ?",
+ "Quel petit bonheur aimerais-tu partager avec ta moitié demain ?",
+ "Quel mot résume votre couple aujourd'hui ?"
+);
+QUIZ.push(
+ {q:"Combien de cœurs a une pieuvre ?",o:["1","2","3","4"],c:2,x:"Trois : deux pour les branchies et un pour le reste du corps."},
+ {q:"Quelle planète est la plus proche du Soleil ?",o:["Vénus","Mercure","Mars","La Terre"],c:1,x:"Mercure, à environ 58 millions de kilomètres du Soleil."},
+ {q:"Quel est l'océan le plus grand ?",o:["Atlantique","Indien","Pacifique","Arctique"],c:2,x:"Le Pacifique couvre près d'un tiers de la surface de la Terre."},
+ {q:"Combien de minutes dure un match de football, hors prolongations ?",o:["80","90","100","120"],c:1,x:"Deux mi-temps de 45 minutes."},
+ {q:"Quel animal est le plus rapide sur terre ?",o:["Le lion","Le guépard","L'antilope","Le cheval"],c:1,x:"Le guépard peut dépasser 100 km/h sur de courtes distances."},
+ {q:"Dans quel pays se trouve la tour de Pise ?",o:["Espagne","Grèce","Italie","Portugal"],c:2,x:"En Italie, en Toscane."},
+ {q:"Combien de jours compte une année bissextile ?",o:["364","365","366","367"],c:2,x:"366 jours, avec un 29 février."},
+ {q:"Quel est le plus long fleuve d'Afrique ?",o:["Le Congo","Le Niger","Le Nil","Le Sénégal"],c:2,x:"Le Nil, avec environ 6 650 km."},
+ {q:"Quel gaz les plantes absorbent-elles ?",o:["L'oxygène","Le dioxyde de carbone","L'azote","L'hélium"],c:1,x:"Elles absorbent le CO₂ et rejettent de l'oxygène."},
+ {q:"Combien de côtés a un hexagone ?",o:["5","6","7","8"],c:1,x:"Six côtés."},
+ {q:"Qui a peint la Joconde ?",o:["Michel-Ange","Léonard de Vinci","Raphaël","Picasso"],c:1,x:"Léonard de Vinci, au début du XVIe siècle."},
+ {q:"Quelle est la capitale du Canada ?",o:["Toronto","Montréal","Ottawa","Vancouver"],c:2,x:"Ottawa, en Ontario."},
+ {q:"Quel est le plus grand désert chaud du monde ?",o:["Le Kalahari","Le Sahara","Le désert d'Arabie","Le Gobi"],c:1,x:"Le Sahara, plus de 9 millions de km²."},
+ {q:"Combien de joueurs compte une équipe de basket sur le terrain ?",o:["5","6","7","11"],c:0,x:"Cinq joueurs par équipe."},
+ {q:"Quel est l'organe le plus grand du corps humain ?",o:["Le foie","Le cerveau","La peau","Les poumons"],c:2,x:"La peau, environ 2 m² chez un adulte."},
+ {q:"En quelle année l'homme a-t-il marché sur la Lune pour la première fois ?",o:["1959","1969","1979","1989"],c:1,x:"Le 21 juillet 1969, avec Apollo 11."},
+ {q:"Quelle langue parle-t-on au Brésil ?",o:["L'espagnol","Le portugais","Le brésilien","Le français"],c:1,x:"Le portugais."},
+ {q:"Quel métal est liquide à température ambiante ?",o:["Le plomb","Le mercure","L'aluminium","Le zinc"],c:1,x:"Le mercure."},
+ {q:"Combien de continents compte-t-on habituellement ?",o:["5","6","7","8"],c:2,x:"On en compte souvent 7, mais certains en comptent 5 ou 6."},
+ {q:"Quelle est la monnaie du Japon ?",o:["Le yuan","Le won","Le yen","Le baht"],c:2,x:"Le yen."},
+ {q:"Quel instrument a 88 touches ?",o:["L'accordéon","Le piano","L'orgue","Le synthétiseur"],c:1,x:"Le piano classique a 88 touches."},
+ {q:"Quel est l'animal national de l'Australie le plus connu ?",o:["Le koala","Le kangourou","L'émeu","Le wombat"],c:1,x:"Le kangourou, présent sur les armoiries du pays."},
+ {q:"Combien d'heures y a-t-il dans une semaine ?",o:["148","158","168","178"],c:2,x:"7 × 24 = 168 heures."},
+ {q:"Quel pays a gagné la Coupe du monde de football 2018 ?",o:["Le Brésil","L'Allemagne","La France","L'Argentine"],c:2,x:"La France, en battant la Croatie 4 à 2."},
+ {q:"De quelle couleur est le sang d'un poulpe ?",o:["Rouge","Vert","Bleu","Jaune"],c:2,x:"Bleu, à cause de l'hémocyanine riche en cuivre."},
+ {q:"Quelle est la plus haute montagne du monde ?",o:["Le K2","Le Kilimandjaro","L'Everest","Le mont Blanc"],c:2,x:"L'Everest, environ 8 849 m."},
+ {q:"Quel est l'aliment principal du panda ?",o:["Les fruits","Le bambou","Le poisson","Les insectes"],c:1,x:"Le bambou, jusqu'à 12 kg par jour."},
+ {q:"Combien de dents a un adulte, dents de sagesse comprises ?",o:["28","30","32","34"],c:2,x:"32 dents."},
+ {q:"Quel pays est surnommé le pays du Soleil-Levant ?",o:["La Chine","La Corée","Le Japon","La Thaïlande"],c:2,x:"Le Japon."},
+ {q:"Quelle est la capitale de l'Égypte ?",o:["Alexandrie","Le Caire","Louxor","Gizeh"],c:1,x:"Le Caire."},
+ {q:"Combien de temps met la lumière du Soleil pour arriver sur Terre ?",o:["8 secondes","8 minutes","8 heures","8 jours"],c:1,x:"Environ 8 minutes et 20 secondes."},
+ {q:"Quel fruit est le plus produit au monde ?",o:["La pomme","La banane","L'orange","La mangue"],c:1,x:"La banane, devant la pastèque et la pomme."},
+ {q:"Quel est le symbole chimique de l'or ?",o:["Or","Go","Au","Ag"],c:2,x:"Au, du latin aurum."},
+ {q:"Dans quelle ville se trouve la statue du Christ Rédempteur ?",o:["São Paulo","Lisbonne","Rio de Janeiro","Buenos Aires"],c:2,x:"À Rio de Janeiro, sur le Corcovado."},
+ {q:"Combien de cordes a une guitare classique ?",o:["4","5","6","7"],c:2,x:"Six cordes."}
+);
+DIL.push(
+ {q:"Pour un rendez-vous en appel vidéo ?",o:["Cuisiner le même plat en même temps","Regarder le même film en même temps"]},
+ {q:"Vous gagnez un voyage :",o:["Une plage paradisiaque","Une grande ville à visiter"]},
+ {q:"Tu préfères…",o:["Un message surprise le matin","Un appel surprise le soir"]},
+ {q:"Pour vos retrouvailles :",o:["Une soirée à deux","Une journée avec vos amis"]},
+ {q:"Tu préfères…",o:["Savoir lire dans ses pensées","Pouvoir te téléporter chez ta moitié"]},
+ {q:"Pour un anniversaire :",o:["Une grande fête surprise","Un dîner tranquille à deux"]},
+ {q:"Tu préfères…",o:["Ne plus jamais manger de chocolat","Ne plus jamais manger de fromage"]},
+ {q:"Pour un dimanche :",o:["Grasse matinée et film","Balade dehors toute la journée"]},
+ {q:"Tu préfères…",o:["Un chat","Un chien"]},
+ {q:"Pour votre future maison :",o:["En ville","À la campagne"]},
+ {q:"Tu préfères…",o:["Vivre sans musique","Vivre sans films ni séries"]},
+ {q:"Pour se dire bonne nuit :",o:["Un appel","Un vocal"]},
+ {q:"Tu préfères…",o:["Avoir toujours chaud","Avoir toujours froid"]},
+ {q:"Pour un cadeau :",o:["Quelque chose d'utile","Quelque chose de sentimental"]},
+ {q:"Tu préfères…",o:["Voyager dans le passé","Voyager dans le futur"]},
+ {q:"Pour le mariage :",o:["Une grande cérémonie","Un petit mariage intime"]},
+ {q:"Tu préfères…",o:["Parler toutes les langues","Jouer de tous les instruments"]},
+ {q:"Pour les vacances :",o:["Tout planifier","Partir à l'aventure sans plan"]},
+ {q:"Tu préfères…",o:["Un road trip en voiture","Un voyage en train de nuit"]},
+ {q:"Après une dispute :",o:["En parler tout de suite","Se calmer d'abord et en parler après"]},
+ {q:"Tu préfères…",o:["Être très riche mais occupé·e","Avoir assez mais beaucoup de temps libre"]},
+ {q:"Pour le petit-déjeuner :",o:["Sucré","Salé"]},
+ {q:"Tu préfères…",o:["Recevoir une lettre d'amour","Recevoir une chanson composée pour toi"]},
+ {q:"Pour un film à deux :",o:["Une comédie","Un film d'horreur"]},
+ {q:"Tu préfères…",o:["Ne plus jamais utiliser les réseaux sociaux","Ne plus jamais regarder la télé"]},
+ {q:"Pour votre premier voyage ensemble :",o:["En Afrique","En Asie"]},
+ {q:"Tu préfères…",o:["Que ta moitié cuisine pour toi","Cuisiner pour ta moitié"]},
+ {q:"Pour la fête :",o:["Danser toute la nuit","Discuter autour d'une table"]},
+ {q:"Tu préfères…",o:["Un tatouage assorti","Une bague assortie"]},
+ {q:"Pour les photos :",o:["Plein de selfies","Peu de photos, mais belles"]},
+ {q:"Tu préfères…",o:["Gagner au loto","Trouver le métier de tes rêves"]},
+ {q:"Pour un appel :",o:["Long et posé","Court mais souvent"]},
+ {q:"Tu préfères…",o:["Une maison près de la mer","Un appartement en plein centre-ville"]},
+ {q:"Pour un rendez-vous :",o:["Restaurant","Activité (bowling, escape game…)"]},
+ {q:"Tu préfères…",o:["Avoir une mémoire parfaite","Pouvoir oublier ce que tu veux"]},
+ {q:"En cas de pluie pendant vos vacances :",o:["Rester au chaud à l'hôtel","Sortir quand même sous la pluie"]}
+);
+DARE.push(
+ "Faire une déclaration d'amour comme un présentateur du journal télévisé.",
+ "Montrer à la caméra l'objet le plus bizarre de ta chambre et raconter son histoire.",
+ "Faire 10 squats en disant un compliment à chaque fois.",
+ "Imiter ta moitié en train de te raconter sa journée.",
+ "Chanter « joyeux anniversaire » avec une voix d'opéra.",
+ "Faire ta plus belle pose de mannequin pendant 10 secondes.",
+ "Mimer un film, l'autre doit deviner le titre.",
+ "Raconter votre rencontre comme si c'était un film d'action.",
+ "Faire une grimace et la garder 15 secondes sans rire.",
+ "Danser 20 secondes sur une musique choisie par l'autre.",
+ "Dire l'alphabet à l'envers le plus vite possible.",
+ "Faire une pub de 30 secondes pour ta moitié, comme si tu la vendais.",
+ "Parler avec un accent étranger jusqu'à la prochaine carte.",
+ "Faire un bisou à la caméra de la façon la plus dramatique possible.",
+ "Imiter un animal choisi par l'autre pendant 15 secondes.",
+ "Te maquiller ou te coiffer en 30 secondes sans miroir.",
+ "Faire un discours de remerciement comme aux Oscars.",
+ "Faire deviner un plat en le mimant.",
+ "Raconter une blague. Si l'autre ne rit pas, c'est raté.",
+ "Montrer ta meilleure photo d'enfance.",
+ "Faire 5 pompes. Si tu n'y arrives pas, c'est raté.",
+ "Chanter une chanson d'amour en la regardant dans les yeux sans rire.",
+ "Faire un compliment différent pour chaque lettre de son prénom.",
+ "Tenir en équilibre sur un pied pendant 30 secondes, les yeux fermés.",
+ "Écrire son prénom en l'air avec ta tête, l'autre doit deviner.",
+ "Faire la météo de votre couple comme à la télé.",
+ "Imiter le bruit de ta sonnerie de réveil.",
+ "Faire une déclaration en rimes de quatre lignes."
+);
+DAREV.push(
+ "Faire une déclaration d'amour comme un présentateur radio.",
+ "Chanter « joyeux anniversaire » avec une voix d'opéra.",
+ "Raconter votre rencontre comme si c'était un film d'action.",
+ "Dire l'alphabet à l'envers le plus vite possible.",
+ "Faire une pub de 30 secondes pour ta moitié, comme si tu la vendais.",
+ "Parler avec un accent étranger jusqu'à la prochaine carte.",
+ "Imiter un animal choisi par l'autre, seulement avec la voix.",
+ "Faire un discours de remerciement comme aux Oscars.",
+ "Raconter une blague. Si l'autre ne rit pas, c'est raté.",
+ "Chanter une chanson d'amour sans rire.",
+ "Faire un compliment différent pour chaque lettre de son prénom.",
+ "Faire la météo de votre couple comme à la radio.",
+ "Imiter le bruit de ta sonnerie de réveil.",
+ "Faire une déclaration en rimes de quatre lignes.",
+ "Faire deviner un film en n'utilisant que des bruitages.",
+ "Raconter ta journée en chuchotant comme un espion.",
+ "Commenter ce que fait l'autre en ce moment comme un match de foot.",
+ "Dire « je t'aime » dans trois langues différentes.",
+ "Lire une phrase au hasard d'un livre ou d'un message avec une voix de film d'horreur.",
+ "Siffler une chanson connue, l'autre doit la reconnaître."
+);
+TEACH.push(
+ "Apprends-lui un geste ou un signe que tu utilises souvent.",
+ "Apprends-lui comment on dit « je t'aime » dans une langue qu'il ou elle ne parle pas.",
+ "Apprends-lui un mot d'argot que tu utilises avec tes amis.",
+ "Apprends-lui le nom d'un plat de ton enfance et ce qu'il y a dedans.",
+ "Apprends-lui une petite règle d'un jeu ou d'un sport que tu aimes.",
+ "Apprends-lui un mot de ton métier ou de tes études.",
+ "Apprends-lui un proverbe que tu trouves beau.",
+ "Apprends-lui le surnom d'un membre de ta famille et son histoire."
+);
+TABOO.push(
+ ["Valentin",["amour","février","fête","14"]],["Bague",["doigt","mariage","fiançailles","bijou"]],["Cinéma",["film","salle","écran","pop-corn"]],
+ ["Cadeau",["offrir","paquet","anniversaire","surprise"]],["Fleur",["rose","bouquet","jardin","pétale"]],["Lettre",["écrire","poste","enveloppe","courrier"]],
+ ["Restaurant",["manger","serveur","table","menu"]],["Train",["gare","rail","voyage","wagon"]],["Neige",["blanc","hiver","froid","ski"]],
+ ["Soleil",["chaud","été","lumière","ciel"]],["Coussin",["canapé","dormir","doux","lit"]],["Parfum",["odeur","sentir","flacon","vaporiser"]],
+ ["Danse",["musique","bouger","soirée","salsa"]],["Photo",["appareil","souvenir","selfie","image"]],["Guitare",["corde","musique","instrument","jouer"]],
+ ["Hôpital",["médecin","malade","infirmière","urgence"]],["École",["élève","prof","classe","cours"]],["Montagne",["ski","sommet","neige","randonnée"]],
+ ["Baleine",["mer","grand","poisson","océan"]],["Ordinateur",["clavier","écran","souris","internet"]],["Chaussure",["pied","lacet","marcher","basket"]],
+ ["Gâteau",["anniversaire","sucre","four","bougie"]],["Café",["boire","tasse","matin","noir"]],["Voiture",["conduire","roue","route","garage"]],
+ ["Étoile",["ciel","nuit","briller","filante"]],["Dentiste",["dent","bouche","soin","carie"]],["Mariée",["robe","blanc","mariage","épouse"]],
+ ["Lunettes",["yeux","voir","verre","myope"]],["Couverture",["lit","chaud","dormir","plaid"]],["Miroir",["reflet","se regarder","glace","salle de bain"]],
+ ["Plage",["sable","mer","soleil","maillot"]],["Parapluie",["pluie","mouillé","ouvrir","protéger"]],["Bébé",["enfant","pleurer","couche","naissance"]],
+ ["Chocolat chaud",["boisson","cacao","hiver","tasse"]],["Tente",["camping","dormir","dehors","toile"]],["Karaoké",["chanter","micro","paroles","soirée"]]
+);
+WAVE.push(
+ "Un dessert","Un pays d'Afrique","Une marque de téléphone","Un légume","Un animal de la ferme","Un prénom de garçon","Un prénom de fille",
+ "Une couleur de voiture","Un mot doux","Un plat sénégalais","Un réseau social","Un fruit exotique","Une capitale","Une fleur","Un vêtement d'hiver",
+ "Un endroit pour un premier rendez-vous","Un super-pouvoir","Un dessin animé","Une marque de baskets","Un sport d'équipe","Un mot qui rime avec « amour »",
+ "Un objet dans une cuisine","Une émotion","Une pièce de la maison","Un métier qui fait peur","Une boisson fraîche","Un animal marin","Un jeu de société",
+ "Un chanteur ou une chanteuse","Une langue étrangère","Un cadeau romantique","Une ville en France","Un plat de fête","Une matière à l'école",
+ "Un nombre entre 1 et 20","Une chose qu'on emporte en vacances","Un mot pour décrire ta moitié","Un snack pour regarder un film"
+);
+WHO.push(
+ "rit le plus fort ?","est le plus romantique ?","a le plus de vêtements ?","est le plus têtu ?","s'excuse le plus facilement ?",
+ "est le plus drôle ?","a le plus peur des insectes ?","passe le plus de temps sur son téléphone ?","conduirait le mieux ?",
+ "se plaint le plus quand il fait froid ?","oublie le plus les dates importantes ?","ferait le meilleur parent ?","est le plus gourmand ?",
+ "a le plus de patience ?","danse le mieux ?","fait le plus de bêtises ?","est le plus dépensier ?","se lève le plus tard le week-end ?",
+ "pleure le plus facilement ?","pose le plus de questions ?","serait le premier à craquer dans une dispute ?","est le plus organisé ?",
+ "envoie le plus de vocaux ?","mange le plus vite ?","est le plus jaloux ?","est le plus sportif ?","aime le plus faire la fête ?",
+ "prend le plus de temps à choisir au restaurant ?","survivrait le plus longtemps sur une île déserte ?","dirait oui à n'importe quelle aventure ?",
+ "a le meilleur sens de l'orientation ?","fait le plus de surprises ?","garde le plus de souvenirs et de photos ?","est le plus câlin ?",
+ "rougit le plus vite ?","tomberait amoureux en premier, si c'était à refaire ?","chante le plus sous la douche ?","est le plus fort au jeu ?"
+);
+LIE.push(
+ "sur tes amis","sur tes premiers amours","sur tes peurs","sur ce que tu as mangé cette semaine","sur tes rêves d'enfant",
+ "sur tes vacances","sur ton téléphone","sur tes secrets de beauté","sur tes habitudes du matin","sur tes plus grosses hontes",
+ "sur ta famille éloignée","sur tes talents en cuisine","sur tes premières fois","sur tes notes à l'école","sur ce que tu penses de ta moitié"
+);
+GAGES.push(
+ "Envoyer un selfie avec une coiffure ridicule","Faire un compliment sincère à l'autre chaque jour pendant une semaine",
+ "Chanter la chanson préférée de l'autre en vocal","Écrire 10 raisons pour lesquelles tu aimes l'autre","Faire une vidéo de danse de 15 secondes",
+ "Appeler l'autre demain matin pour le ou la réveiller","Préparer le programme de vos prochaines retrouvailles","Raconter une histoire pour l'endormir ce soir",
+ "Changer ton fond d'écran pour une photo de vous deux pendant une semaine","Envoyer une photo de ton repas avec un commentaire de chef étoilé",
+ "Laisser l'autre choisir le film de votre prochain appel","Faire une déclaration d'amour avec la voix d'un dessin animé",
+ "Apprendre à dire « je t'aime » dans une nouvelle langue d'ici demain","Envoyer un vocal où tu imites l'autre",
+ "Offrir un petit cadeau surprise à vos retrouvailles","Dessiner un portrait de l'autre et l'envoyer en photo",
+ "Écrire un petit poème sur vos retrouvailles","Dire « je t'aime » en criant par la fenêtre (ou presque)"
+);
+KNOWSN.push(
+ ["Quel est ton plat préféré à la Tabaski ?","Quel est le plat préféré de ta moitié à la Tabaski ?"],
+ ["Quelle ville du Sénégal aimerais-tu lui faire visiter en premier ?","Quelle ville du Sénégal ta moitié aimerait te faire visiter en premier ?"],
+ ["Quel est ton jus local préféré ?","Quel est le jus local préféré de ta moitié ?"],
+ ["Quel artiste sénégalais écoutes-tu le plus ?","Quel artiste sénégalais ta moitié écoute le plus ?"],
+ ["Quel mot wolof (ou de ta langue) utilises-tu le plus ?","Quel mot wolof (ou de sa langue) ta moitié utilise le plus ?"],
+ ["Quel plat de rue du pays te manque le plus ?","Quel plat de rue du pays manque le plus à ta moitié ?"],
+ ["Quel est ton joueur préféré des Lions ?","Quel est le joueur préféré des Lions de ta moitié ?"],
+ ["Plage de Saly ou plage de Ngor ?","Plage de Saly ou plage de Ngor, pour ta moitié ?"],
+ ["Qu'est-ce qui te manque le plus du pays quand tu es loin ?","Qu'est-ce qui manque le plus du pays à ta moitié quand elle est loin ?"],
+ ["Quel tissu ou quelle tenue traditionnelle préfères-tu ?","Quel tissu ou quelle tenue traditionnelle ta moitié préfère ?"],
+ ["Quelle est la personne de ta famille qui cuisine le mieux ?","Quelle est la personne de la famille de ta moitié qui cuisine le mieux ?"],
+ ["Quel proverbe du pays te parle le plus ?","Quel proverbe du pays parle le plus à ta moitié ?"]
+);
+QUIZSN.push(
+ {q:"Quelle est la monnaie du Sénégal ?",o:["Le dirham","Le franc CFA","Le naira","Le cedi"],c:1,x:"Le franc CFA d'Afrique de l'Ouest."},
+ {q:"Quelle langue est la plus parlée au Sénégal ?",o:["Le pulaar","Le sérère","Le wolof","Le diola"],c:2,x:"Le wolof, compris par une grande majorité des Sénégalais."},
+ {q:"Quel fleuve marque la frontière nord du Sénégal ?",o:["Le Niger","La Gambie","Le fleuve Sénégal","La Casamance"],c:2,x:"Le fleuve Sénégal, qui le sépare de la Mauritanie."},
+ {q:"En quelle année le Sénégal a-t-il gagné sa première Coupe d'Afrique des nations ?",o:["2002","2012","2019","2022"],c:3,x:"En 2022, au Cameroun, face à l'Égypte aux tirs au but."},
+ {q:"De quelle couleur est l'étoile du drapeau sénégalais ?",o:["Jaune","Rouge","Verte","Blanche"],c:2,x:"Verte, au centre de la bande jaune."},
+ {q:"Quelle ville accueille chaque année le Grand Magal ?",o:["Tivaouane","Touba","Kaolack","Thiès"],c:1,x:"Touba, fondée par Cheikh Ahmadou Bamba."},
+ {q:"Quel grand monument domine Dakar depuis 2010 ?",o:["La Porte du Millénaire","Le Monument de la Renaissance africaine","La statue de l'Indépendance","Le phare des Mamelles"],c:1,x:"Le Monument de la Renaissance africaine, sur l'une des collines des Mamelles."},
+ {q:"Avec quel club Sadio Mané a-t-il gagné la Ligue des champions ?",o:["Bayern Munich","Southampton","Liverpool","Al-Nassr"],c:2,x:"Avec Liverpool, en 2019."},
+ {q:"Quelle région du sud est connue pour ses rizières et ses forêts ?",o:["Le Sine-Saloum","La Casamance","Le Ferlo","Le Cayor"],c:1,x:"La Casamance."},
+ {q:"Comment appelle-t-on le repas de rupture du jeûne pendant le ramadan ?",o:["Le ndogou","Le ndekki","Le reer","Le añ"],c:0,x:"Le ndogou."},
+ {q:"Dans quelle région se trouve Thilogne ?",o:["Saint-Louis","Matam","Tambacounda","Louga"],c:1,x:"Dans la région de Matam, au nord-est, près du fleuve."},
+ {q:"Où se terminait autrefois le célèbre rallye Paris-Dakar ?",o:["Au lac Rose","À Gorée","À Saint-Louis","Aux Almadies"],c:0,x:"Au lac Rose (lac Retba), près de Dakar."}
+);
+DILSN.push(
+ {q:"Au petit-déjeuner ?",o:["Pain-thon","Bouillie de mil"]},
+ {q:"Pour la Tabaski ?",o:["Rester en famille toute la journée","Faire le tour des amis et voisins"]},
+ {q:"En musique ?",o:["Mbalax","Rap galsen"]},
+ {q:"Pour se déplacer à Dakar ?",o:["Car rapide","Taxi"]},
+ {q:"Le plat ?",o:["Mafé","Soupou kandja"]},
+ {q:"Pour une sortie ?",o:["Lac Rose","Saint-Louis"]},
+ {q:"Le dessert ?",o:["Thiakry","Ngalakh"]},
+ {q:"Les vacances ?",o:["Saly","Cap Skirring"]},
+ {q:"Pour une fête ?",o:["Sabar","Soirée en boîte"]},
+ {q:"À manger dans la rue ?",o:["Fataya","Dibi"]}
+);
+DARESN.push(
+ "Faire une prière de bénédiction pour votre couple comme un vieux du village.",
+ "Imiter un vendeur de café Touba qui interpelle les passants.",
+ "Faire la pub d'un bissap comme à la télé sénégalaise.",
+ "Imiter un griot qui chante les louanges de ta moitié.",
+ "Danser 15 secondes de sabar.",
+ "Imiter un apprenti de car rapide qui annonce les arrêts.",
+ "Présenter les invités d'un mariage comme un maître de cérémonie.",
+ "Négocier ta dot avec l'autre, comme une vraie famille."
+);
 const LABEL={taboo:"Mot interdit",wave:"Même longueur d'onde",who:"Lequel de vous deux ?",lie:"Vrai ou mytho",rom:"Cœur à cœur",spi:"Pimenté",know:"Qui me connaît ?",dare:"Défi",quiz:"Quiz à deux",dil:"Et si…",teach:"Apprends-moi",recall:"Tu t'en souviens ?"};
 const LEVELS=[[0,"Premier appel"],[12,"Fuseaux alignés"],[30,"Longue portée"],[55,"Télépathes"],[90,"Zéro kilomètre"]];
 
 /* ---------- état ---------- */
-const BUILD=30;
+const BUILD=40;
 const LBL={know:"Qui me connaît ?",dare:"Défi",quiz:"Quiz",dil:"Et si…",teach:"Apprends-moi",recall:"Tu t'en souviens ?",rom:"Cœur à cœur",spi:"Pimenté",
   taboo:"Mot interdit",wave:"Même longueur d'onde",who:"Lequel de vous deux ?",lie:"Vrai ou mytho"};
 const fresh=()=>({screen:"home",code:"",role:"a",ep:0,n:1,round:0,go:false,moves:{},rem:{},hist:[],names:{a:"",b:""}});
@@ -506,7 +894,7 @@ const de=n=>/^[aeiouyhàâäéèêëîïôöùûü]/i.test(n)?"d'"+n:"de "+n;
 const mv=(r,role)=>(role===S.role?S.moves:S.rem)["r"+r]||null;
 const has=(r,role)=>{const m=mv(r,role);return !!m&&m.v!=null};
 function toast(t){const el=$("toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),3200)}
-function persist(){try{localStorage.setItem("ldy2",JSON.stringify(S))}catch(e){} pushPresence()}
+function persist(){try{localStorage.setItem("ldy2",JSON.stringify(S))}catch(e){} if(S.screen==="game"&&S.code.length>=6) playedSet(gameNo()+1); pushPresence()}
 
 /* ---------- paquet de cartes : le code donne le même paquet sur les deux téléphones ---------- */
 const ALPHA="ABCDEFGHJKMNPQRSTUVWXYZ", VOICE_END="ABCDEFGHJKM", VIDEO_END="NPQRSTUVWXYZ";
@@ -530,18 +918,31 @@ function deck(){
   const k=S.code+":"+S.ep+":"+S.n; if(deckMemo.k===k) return deckMemo.d;
   const rnd=rng(hash(S.code+":"+S.n));
   const mix=n=>{const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-  const P={};["know","dare","quiz","dil","teach","rom","spi","taboo","wave","who","lie"].forEach(t=>P[t]=mix(bk(t).length));
+  /* pas de répétition : chaque partie avance dans un ordre fixe des cartes, propre à chaque type */
+  const g=gameNo(),pat=theme().p.split(" "),T0={k:"know",d:"dil",q:"quiz",x:"dare",t:"teach",r:"rom",s:"spi",b:"taboo",w:"wave",o:"who",l:"lie"};
+  const per={};pat.forEach(s=>{const t=T0[s[0]];if(t)per[t]=(per[t]||0)+1});
+  const seen={},pickI=t=>{const L=bk(t).length,pm=perm(t+":"+(theme().sn?"sn":"")+(t==="dare"&&voice()?"v":"")+":"+L,L),j=seen[t]=(seen[t]||0)+1;
+    return pm[(g*(per[t]||1)+j-1)%L]};
   const A=rnd()<.5?"a":"b",B=other(A);
   const T={k:"know",d:"dil",q:"quiz",x:"dare",t:"teach",r:"rom",s:"spi",c:"recall",b:"taboo",w:"wave",o:"who",l:"lie"};
   const d=theme().p.split(" ").map((s,i)=>{const c={t:T[s[0]],dec:i%2?B:A};
     if(c.t==="recall") c.ref=Number(s.slice(1)); else if(s[1]) c.who=s[1]==="A"?A:B;
     return c});
-  d.forEach(c=>{if(c.t==="recall") c.who=d[c.ref].who; else c.i=P[c.t].pop()});
+  d.forEach(c=>{if(c.t==="recall") c.who=d[c.ref].who; else c.i=pickI(c.t)});
   deckMemo={k,d,chk:hash(JSON.stringify(d)+BUILD)%9000+1000}; return d;
 }
 const chk=()=>{deck();return deckMemo.chk};
-function genCode(){const pick=s=>s[Math.floor(Math.random()*s.length)];
-  return pick(ALPHA)+pick(ALPHA)+pick([...ALPHA].filter((_,i)=>i%THEMES.length===themeKind).join(""))+pick(callKind==="voice"?VOICE_END:VIDEO_END)}
+/* ordre fixe des cartes d'un type (le même sur tous les téléphones) */
+const permMemo={};
+function perm(key,L){if(permMemo[key]) return permMemo[key];const r=rng(hash("ldy-perm:"+key)),a=[...Array(L).keys()];
+  for(let i=L-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return permMemo[key]=a}
+/* numéro de partie : les 2 premières lettres du code + le numéro de partie en cours */
+const codeOff=code=>code&&code.length>=6?Math.max(0,ALPHA.indexOf(code[0]))*ALPHA.length+Math.max(0,ALPHA.indexOf(code[1])):0;
+const gameNo=()=>codeOff(S.code)+S.n-1;
+function playedGet(){try{return Number(localStorage.getItem("ldy-g"))||0}catch(e){return 0}}
+function playedSet(n){try{if(n>playedGet())localStorage.setItem("ldy-g",String(n))}catch(e){}}
+function genCode(){const pick=s=>s[Math.floor(Math.random()*s.length)],N=ALPHA.length,off=playedGet()%(N*N);
+  return ALPHA[Math.floor(off/N)]+ALPHA[off%N]+pick([...ALPHA].filter((_,i)=>i%THEMES.length===themeKind).join(""))+pick(callKind==="voice"?VOICE_END:VIDEO_END)+pick(ALPHA)+pick(ALPHA)}
 
 /* ---------- règles ---------- */
 /* comparaison souple : l'idée compte, pas l'orthographe */
@@ -644,9 +1045,9 @@ function create(){
   S={...fresh(),code:genCode(),role:"a",names:{a:name,b:mate},screen:"lobby"};draft={};connect();persist();render(true);
 }
 function join(){
-  const code=(draft["in-code"]||"").toUpperCase().replace(/[^A-Z]/g,"").slice(0,4);
+  const code=(draft["in-code"]||"").toUpperCase().replace(/[^A-Z]/g,"").slice(0,6);
   const name=(draft["in-name"]||"").trim().slice(0,24),mate=(draft["in-mate"]||"").trim().slice(0,24);
-  if(code.length!==4){toast("Le code fait 4 lettres.");return}
+  if(code.length!==6){toast("Le code fait 6 lettres.");return}
   S={...fresh(),code,role:"b",names:{a:mate,b:name},screen:"lobby"};draft={};connect();persist();render(true);
 }
 
@@ -773,7 +1174,7 @@ function viewHome(){
       ${THEMES.map((t,i)=>`<button class="opt th${themeKind===i?" on":""}" data-act="theme" data-v="${i}" aria-pressed="${themeKind===i}">${t.name}<small>${t.hint}</small></button>`).join("")}</div></div>
     <button data-act="create">Créer une partie</button>
     <div class="field"><label for="in-code">Ou rejoins la partie de ta moitié</label>
-      <div class="row"><input type="text" id="in-code" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="Code à 4 lettres"><button class="ghost" data-act="join">Rejoindre</button></div></div>
+      <div class="row"><input type="text" id="in-code" maxlength="6" autocapitalize="characters" autocomplete="off" placeholder="Code à 6 lettres"><button class="ghost" data-act="join">Rejoindre</button></div></div>
   </div></div>
   <div class="stack"><div class="ans"><small>Question du jour à lui envoyer</small><span id="dq">${esc(dq)}</span></div>
   <button class="ghost" data-act="copy">Copier la question</button></div>`;
