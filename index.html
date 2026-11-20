@@ -181,6 +181,11 @@ input[type=text]:focus,textarea:focus{border-color:var(--red);outline:none;box-s
   :root:not([data-theme="light"]) .turn.me,:root:not([data-theme="light"]) .turn.both,:root:not([data-theme="light"]) .toast,
   :root:not([data-theme="light"]) .stamp{color:#2a0d18}
 }
+.brandr{display:flex;align-items:center;gap:10px}
+.music{min-height:0;width:38px;height:38px;padding:0;border-radius:50%;font-size:1.1rem;line-height:1;flex:none}
+.music[aria-pressed="false"]{background:var(--surface);color:var(--muted);border:1.5px solid var(--line);box-shadow:none;text-decoration:line-through}
+.music.on{animation:beat 2.4s ease-in-out infinite}
+a.song{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:999px;border:1.5px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;background:var(--surface)}
 @keyframes beat{0%,100%{transform:scale(1)}30%{transform:scale(1.25)}60%{transform:scale(.95)}}
 
 /* pétales qui tombent */
@@ -197,7 +202,7 @@ input[type=text]:focus,textarea:focus{border-color:var(--red);outline:none;box-s
 <div class="petals" id="petals" aria-hidden="true"></div>
 <div class="app">
   <header>
-    <div class="brand"><h1>Loin des yeux</h1><span id="meta"></span></div>
+    <div class="brand"><h1>Loin des yeux</h1><span class="brandr"><span id="meta"></span><button class="music" id="music" data-act="music" aria-pressed="true" aria-label="Musique">♪</button></span></div>
   </header>
   <div id="wirebox"></div>
   <main id="stage"></main>
@@ -1362,11 +1367,13 @@ function viewEnd(){
     <p class="hint">Parties gagnées : toi ${wins} · ${esc(pm())} ${losses}${all.length-wins-losses?` · ${all.length-wins-losses} égalité${all.length-wins-losses>1?"s":""}`:""}</p>
     ${linked()?"":`<p class="hint">Comparez vos deux écrans : le décompte doit être le même. Appuyez tous les deux sur Nouvelle partie pour garder le même paquet.</p>`}
     ${gageBox(m,t)}
+    <a class="song" href="https://www.youtube.com/results?search_query=Adele+Make+You+Feel+My+Love" target="_blank" rel="noopener">♪ Écouter une chanson d'amour sur YouTube</a>
     <button data-act="again">Nouvelle partie</button>
   </div></div>
   ${j?`<div class="journal"><h3>Votre journal de la partie</h3>${j}</div>`:""}`;
 }
 function render(pop){
+  try{Music.sync()}catch(e){}
   const inGame=S.screen==="game", ended=inGame&&S.round>=deck().length;
   const note=mismatch&&S.screen!=="home"?`<p class="notice">Vos deux téléphones n'ont pas le même paquet de cartes. Rechargez la page tous les deux, puis recréez une partie.</p>`:"";
   const html=note+(S.screen==="home"?viewHome():S.screen==="lobby"?viewLobby():ended?viewEnd():viewRound());
@@ -1413,6 +1420,7 @@ document.addEventListener("click",e=>{
   else if(act==="reset-yes") resetAll();
   else if(act==="again") newGame();
   else if(act==="next") next();
+  else if(act==="music"){Music.toggle()}
   else if(act==="dbl"){draft.dbl=!draft.dbl;render()}
   else if(act==="gage"){const t=(b.dataset.v||draft["in-gage"]||"").trim();if(!t){toast("Écris un gage d'abord.");return}delete draft["in-gage"];
     S.moves["r"+deck().length]={v:t.slice(0,200)};persist();render()}
@@ -1465,6 +1473,54 @@ function fbRoom(){
       leave:async()=>{if(h)ref.off("value",h);try{mine.onDisconnect().cancel()}catch(e){}await mine.remove()}
     }}};
 }
+
+/* ---------- musique originale, jouée par le navigateur ---------- */
+const Music=(()=>{
+  let ctx=null,out=null,timer=0,mode="",step=0;
+  let on=true;try{on=localStorage.getItem("ldy-music")!=="0"}catch(e){}
+  const N=n=>440*Math.pow(2,(n-69)/12);
+  /* progression douce : Fa maj7 · Mi m7 · Ré m7 · Do maj7 */
+  const CH=[[53,57,60,64],[52,55,59,62],[50,53,57,60],[48,52,55,59]];
+  const MEL=[72,76,74,72, 71,72,74,67, 69,72,71,69, 67,64,67,72];
+  function init(){
+    if(ctx) return true;
+    const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return false;
+    ctx=new AC(); out=ctx.createGain(); out.gain.value=0;
+    const dl=ctx.createDelay(),fb=ctx.createGain(),wet=ctx.createGain();
+    dl.delayTime.value=.33;fb.gain.value=.35;wet.gain.value=.3;
+    out.connect(ctx.destination);out.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(wet);wet.connect(ctx.destination);
+    return true;
+  }
+  function note(f,t,dur,vol,type){
+    const o=ctx.createOscillator(),g=ctx.createGain(),lp=ctx.createBiquadFilter();
+    o.type=type;o.frequency.value=f;lp.type="lowpass";lp.frequency.value=1800;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.04);g.gain.exponentialRampToValueAtTime(.0008,t+dur);
+    o.connect(lp);lp.connect(g);g.connect(out);o.start(t);o.stop(t+dur+.05);
+  }
+  function bar(){
+    const t=ctx.currentTime+.05,c=CH[step%4],beat=mode==="fin"?.5:.75;
+    c.forEach((n,i)=>note(N(n),t+i*.02,beat*8,mode==="fin"?.05:.035,"sine"));
+    note(N(c[0]-12),t,beat*8,.06,"triangle");
+    if(mode==="fin"){for(let k=0;k<4;k++) note(N(MEL[(step%4)*4+k]),t+k*beat*2,beat*2.6,.09,"triangle")}
+    else [0,2,1,3].forEach((i,k)=>note(N(c[i]+12),t+k*beat*2,beat*2.2,.02,"sine"));
+    step++;
+  }
+  function play(m){
+    if(!on||!init()) return;
+    if(ctx.state==="suspended") ctx.resume();
+    if(mode===m&&timer) return;
+    mode=m;clearInterval(timer);step=0;bar();timer=setInterval(bar,(m==="fin"?.5:.75)*8*1000);
+    out.gain.cancelScheduledValues(ctx.currentTime);out.gain.linearRampToValueAtTime(m==="fin"?.9:.5,ctx.currentTime+1.5);
+    ui();
+  }
+  function stop(){if(!ctx)return;clearInterval(timer);timer=0;mode="";out.gain.cancelScheduledValues(ctx.currentTime);out.gain.linearRampToValueAtTime(0,ctx.currentTime+.6);ui()}
+  function toggle(){on=!on;try{localStorage.setItem("ldy-music",on?"1":"0")}catch(e){} if(on) play(wanted()); else stop()}
+  function ui(){const b=document.getElementById("music");if(!b)return;b.setAttribute("aria-pressed",String(on));b.classList.toggle("on",on&&!!timer)}
+  const wanted=()=>S.screen==="game"&&S.round>=deck().length?"fin":"fond";
+  /* les navigateurs n'autorisent le son qu'après un geste : on démarre au premier toucher */
+  return {sync(){if(on&&ctx) play(wanted());ui()},first(){if(on) play(wanted())},toggle,ui};
+})();
+document.addEventListener("pointerdown",()=>Music.first(),{once:true});
 
 /* ---------- pétales ---------- */
 (function(){const box=document.getElementById("petals");if(!box)return;
